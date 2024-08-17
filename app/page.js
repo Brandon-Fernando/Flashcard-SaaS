@@ -1,35 +1,47 @@
 'use client'
 
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/nextjs";
 import { AppBar, Box, Button, Container, Grid, Toolbar, Typography } from "@mui/material";
 import Head from "next/head";
 import Image from "next/image";
 import getStripe from "@/utils/get-stripe";
+import { useRouter } from 'next/navigation';
 
-
-const handleSubmit = async () => {
-  const checkoutSession = await fetch('/api/checkout_session', {
-    method: 'POST',
-    headers: { origin: 'http://localhost:3000' }, // TODO: Change when deployed to vercel
-  })
-  const checkoutSessionJson = await checkoutSession.json()
-
-  if (checkoutSession.statusCode === 500) {
-    console.error(checkoutSession.message)
-    return
-  }
-
-  const stripe = await getStripe()
-  const {error} = await stripe.redirectToCheckout({
-    sessionId: checkoutSessionJson.id,
-  })
-
-  if (error) {
-    console.warn(error.message)
-  }
-}
 
 export default function Home() {
+  const { isSignedIn } = useUser()
+  const router = useRouter()
+
+  const handleGenerate = async () => {
+    if (isSignedIn) {
+      router.push('/generate')
+    } else {
+      router.push('/sign-in')
+    }
+  }
+
+  const handleSubmit = async () => {
+    const checkoutSession = await fetch('/api/checkout_session', {
+      method: 'POST',
+      headers: { origin: 'http://localhost:3000' }, // TODO: Change when deployed to vercel
+    })
+    const checkoutSessionJson = await checkoutSession.json()
+  
+    if (checkoutSession.statusCode === 500) {
+      console.error(checkoutSession.message)
+      return
+    }
+  
+    const stripe = await getStripe()
+    const {error} = await stripe.redirectToCheckout({
+      sessionId: checkoutSessionJson.id,
+    })
+  
+    if (error) {
+      console.warn(error.message)
+    }
+  }
+
   return (
     <Container maxWidth="lg">
       <Head>
@@ -61,7 +73,7 @@ export default function Home() {
           {' '}
           The easiest way to make flashcards from your text
         </Typography>
-        <Button variant="contained" sx={{mt: 2}} href='/generate'>
+        <Button variant="contained" sx={{mt: 2}} onClick={handleGenerate}>
           Get Started
         </Button>
       </Box>
