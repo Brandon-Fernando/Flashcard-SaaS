@@ -4,7 +4,7 @@ import OpenAI from "openai";
 const systemPrompt =  `
 You are a flashcard creator. Your task is to generate concise and effective flashcards based on the given topic or content. Follow thes guidelines:
 1. Create clear and concise questions for the front of the flashcard. 
-2. Provide accurate and informative answers for the back of the flashcard.
+2. Provide answers based on the text given, but also provide accurate and informative information related to the topic.
 3. Ensure that each flashcard focuses on a single concept or piece of information. 
 4. Use simple language to make the flashcards accessible to a wide range of learners. 
 5. Include a variety of question types, such as definitions, examples, comparisions, and applications.
@@ -41,7 +41,7 @@ export async function POST(req) {
             {role: 'user', content: data }, 
         ], 
         model: "meta-llama/llama-3.1-8b-instruct:free",
-        response_format: {type: 'json_object' },
+        response_format: { type: 'json_object' },
     })
     console.log(completion.choices[0].message.content)
     //Parse the JSON response from the OpenAi API
