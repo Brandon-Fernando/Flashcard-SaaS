@@ -29,6 +29,8 @@ export async function GET(req) {
 
 export async function POST(req) {
     try{
+        const {planType} = await req.json()
+        
         const params = {
             mode: 'subscription',
             payment_method_types: ['card'],
@@ -54,6 +56,12 @@ export async function POST(req) {
             cancel_url: `${req.headers.get(
                 'Referer',
             )}result?session_id={CHECKOUT_SESSION_ID}`,
+        }
+
+        if(planType === 'free-trial'){
+            params.subscription_data = {
+                trial_period_days: 7,
+            }
         }
 
         const checkoutSession = await stripe.checkout.sessions.create(params)

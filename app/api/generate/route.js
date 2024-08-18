@@ -14,6 +14,8 @@ You are a flashcard creator. Your task is to generate concise and effective flas
 9. If given a body of text, extract the most important and relevant information for the flashcards. 
 10. Aim to create a balanced set of flashcards that covers the topic comprehensively.
 11. Only generate 10 flashcards.
+12. Only output the flashcards in the specified JSON format, nothing else.
+13. Do not include any preamble or conclusionary text.
 
 You should return in the following JSON format:
 {
@@ -27,7 +29,10 @@ You should return in the following JSON format:
 `
 
 export async function POST(req) {
-    const openai = new OpenAI()
+    const openai = new OpenAI({
+      baseURL: "https://openrouter.ai/api/v1",
+      apiKey: process.env.OPENROUTER_API_KEY,
+    })
     const data = await req.text()
 
     const completion = await openai.chat.completions.create({
@@ -35,7 +40,7 @@ export async function POST(req) {
             {role: 'system', content: systemPrompt }, 
             {role: 'user', content: data }, 
         ], 
-        model: 'gpt-4o',
+        model: "meta-llama/llama-3.1-8b-instruct:free",
         response_format: {type: 'json_object' },
     })
     console.log(completion.choices[0].message.content)
