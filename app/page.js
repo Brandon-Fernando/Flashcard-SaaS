@@ -37,12 +37,15 @@ export default function Home() {
         <meta name="description" content="Create flashcard from your text"/>
       </Head>
 
-
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" style={{flexGrow: 1}}>
             Flashcard SaaS
           </Typography>
+
+          {/* New Link to Games Page - Start */}
+          <Button color="inherit" href="/games">Games</Button>
+          {/* New Link to Games Page - End */}
 
           <SignedOut>
             <Button color="inherit" href="/sign-in">Login</Button>
@@ -52,7 +55,6 @@ export default function Home() {
             <UserButton />
           </SignedIn>
         </Toolbar>
-      
       </AppBar>
 
       <Box sx={{textAlign: 'center', my: 4 }}> 
@@ -131,9 +133,5 @@ export default function Home() {
         </Grid>
       </Box>
     </Container>
-    
-
-
-    
   )
 }
