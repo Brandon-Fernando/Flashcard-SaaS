@@ -20,6 +20,14 @@ export default function Home() {
     }
   }
 
+  const handleFileUpload = async () => {
+    if (isSignedIn) {
+      router.push('/file-upload')
+    } else {
+      router.push('/sign-in')
+    }
+  }
+
   const handleSubmit = async () => {
     const checkoutSession = await fetch('/api/checkout_session', {
       method: 'POST',
@@ -75,6 +83,9 @@ export default function Home() {
         </Typography>
         <Button variant="contained" sx={{mt: 2}} onClick={handleGenerate}>
           Get Started
+        </Button>
+        <Button variant="contained" sx={{mt: 2, ml: 2}} onClick={handleFileUpload}>
+          Get Started (File Upload)
         </Button>
       </Box>
 
