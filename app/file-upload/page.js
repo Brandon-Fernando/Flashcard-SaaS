@@ -15,6 +15,8 @@ export default function FileUpload() {
     const [loading, setLoading] = useState(false)
     const [name, setName] = useState('')
     const [open, setOpen] = useState(false)
+    const {isLoaded, isSignedIn, user} = useUser()
+    const router = useRouter()
 
     const handleCardClick = (id) => {
         setFlipped((prev) => ({
