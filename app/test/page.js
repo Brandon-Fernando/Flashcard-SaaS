@@ -1,136 +1,105 @@
 'use client'
 
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import { AppBar, Box, Button, Container, Grid, Toolbar, Typography } from "@mui/material";
+import { useState, useEffect } from "react";
+import { Container, Typography, Box, Grid, Card, CardActionArea, CardContent, CircularProgress, IconButton, AppBar, Toolbar } from "@mui/material";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Head from "next/head";
-import Image from "next/image";
-import getStripe from "@/utils/get-stripe";
+import { useUser } from "@clerk/nextjs";
+import { collection, doc, getDoc } from "firebase/firestore";
+import { db } from "@/firebase";
+import { useRouter } from "next/navigation";
 
+export default function Test() {
+  const { user, isLoaded } = useUser();
+  const [flashcardSets, setFlashcardSets] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
-const handleSubmit = async () => {
-  const checkoutSession = await fetch('/api/checkout_session', {
-    method: 'POST',
-    headers: { origin: 'http://localhost:3000' }, // TODO: Change when deployed to vercel
-  })
-  const checkoutSessionJson = await checkoutSession.json()
+  useEffect(() => {
+    if (isLoaded && user) {
+      const fetchFlashcardSets = async () => {
+        const userDocRef = doc(collection(db, 'users'), user.id);
+        const userDoc = await getDoc(userDocRef);
+        if (userDoc.exists()) {
+          setFlashcardSets(userDoc.data().flashcards || []);
+        }
+        setLoading(false);
+      };
+      fetchFlashcardSets();
+    }
+  }, [user, isLoaded]);
 
-  if (checkoutSession.statusCode === 500) {
-    console.error(checkoutSession.message)
-    return
+  const handleSelectSet = (setName) => {
+    // Navigate to the test game with the selected flashcard set
+    router.push(`/test/${setName}`);
+  };
+
+  const handleBack = () => {
+    router.push('/');
+  };
+
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <CircularProgress />
+      </Box>
+    );
   }
 
-  const stripe = await getStripe()
-  const {error} = await stripe.redirectToCheckout({
-    sessionId: checkoutSessionJson.id,
-  })
-
-  if (error) {
-    console.warn(error.message)
-  }
-}
-
-export default function Home() {
   return (
     <Container maxWidth="lg">
       <Head>
-        <title>Flashcard SaaS</title>
-        <meta name="description" content="Create flashcard from your text"/>
+        <title>Flashcard SaaS - Test Game</title>
+        <meta name="description" content="Test your knowledge with your flashcards"/>
       </Head>
 
+      {/* AppBar with "Test" Title and Back Button */}
       <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" style={{flexGrow: 1}}>
-            Flashcard SaaS
+        <Toolbar sx={{ justifyContent: 'space-between' }}>
+          <IconButton edge="start" color="inherit" onClick={handleBack}>
+            <ArrowBackIcon />
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
+            Test
           </Typography>
-
-          {/* New Link to Games Page - Start */}
-          <Button color="inherit" href="/match">Match</Button>
-          <Button color="inherit" href="/test">Test</Button>
-          {/* New Link to Games Page - End */}
-
-          <SignedOut>
-            <Button color="inherit" href="/sign-in">Login</Button>
-            <Button color="inherit" href="/sign-up">Sign Up</Button>
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
+          <Box sx={{ width: 48 }} /> {/* Empty box to balance the space on the right */}
         </Toolbar>
       </AppBar>
 
-      <Box sx={{textAlign: 'center', my: 4 }}> 
-        <Typography variant="h2">Welcome to Flashcard SaaS</Typography>
-        <Typography variant="h5">
-          {' '}
-          The easiest way to make flashcards from your text
+      <Box 
+        sx={{
+          textAlign: 'center', 
+          my: 4,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '70vh'
+        }}>
+
+        <Typography variant="h2" gutterBottom>Test Game</Typography>
+        <Typography variant="h5" sx={{mb: 4}}>
+          Select a flashcard set to start the test:
         </Typography>
-        <Button variant="contained" sx={{mt: 2}} href='/generate'>
-          Get Started
-        </Button>
-      </Box>
 
-      <Box sx={{my: 6}}>
-        <Typography variant="h4" component="h2" gutterBottom>Features</Typography>
-          <Grid container spacing={4}>
-            <Grid item xs={12} md={4}>
-              <Typography variant="h6">Easy Text Input</Typography>
-              <Typography>
-                {' '}
-                Simply input your text and let our software do the rest. Creating 
-                flashcards has never been easier. 
-              </Typography>
-            </Grid>
-
-            <Grid item xs={12} md={4}>
-              <Typography variant="h6">Smart Flashcards</Typography>
-              <Typography>
-                {' '}
-                Our AI intelligently breaks down your text into concise flashcards, 
-                perfect for studying.
-              </Typography>
-            </Grid>
-
-            <Grid item xs={12} md={4}>
-              <Typography variant="h6">Accessible Anywhere</Typography>
-              <Typography>
-                {' '}
-                Access your flashcards from any device, at anytime. Study on the 
-                go with ease. 
-              </Typography>
-            </Grid>
-          </Grid>
-      </Box>
-
-      <Box sx={{my: 6, textAlign: 'center'}}>
-        <Typography variant="h4" component="h2" gutterBottom>Pricing</Typography>
-        <Grid container spacing={4} justifyContent="center">
-            <Grid item xs={12} md={6}>
-              <Box sx={{p: 3, border: '1px solid', borderColor: 'grey.300', borderRadius: 2}}>
-              <Typography variant="h5" gutterBottom>Basic</Typography>
-              <Typography variant="h6">$5 / month</Typography>
-              <Typography>
-                {' '}
-                Access to basic flashcard features and limited storage.
-              </Typography>
-              <Button variant = "contained" color="primary">
-                Choose Basic
-              </Button>
-              </Box>
-            </Grid>
-
-            <Grid item xs={12} md={6}>
-              <Box sx={{p: 3, border: '1px solid', borderColor: 'grey.300', borderRadius: 2}}>
-              <Typography variant="h5" gutterBottom>Pro</Typography>
-              <Typography variant="h6">$10 / month</Typography>
-              <Typography>
-                {' '}
-                Unlimited flashcards and storage, with priority support.
-              </Typography>
-              <Button variant = "contained" color="primary" onClick={handleSubmit}>
-                Choose Pro
-              </Button>
-              </Box>
-            </Grid>
+        <Grid container spacing={3} justifyContent="center">
+          {flashcardSets.length === 0 ? (
+            <Typography variant="h6">No flashcard sets found. Please create some first.</Typography>
+          ) : (
+            flashcardSets.map((set, index) => (
+              <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+                <Card>
+                  <CardActionArea onClick={() => handleSelectSet(set.name)}>
+                    <CardContent>
+                      <Typography variant="h6" component="div">
+                        {set.name}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Grid>
+            ))
+          )}
         </Grid>
       </Box>
     </Container>
