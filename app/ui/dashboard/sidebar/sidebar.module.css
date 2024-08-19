@@ -8,6 +8,7 @@
     width: 280px;
     margin-top: 20px;
     box-shadow: -3px 4px 5px rgb(40, 40, 40);
+    z-index: 1000;
 }
 
 /* Background image with white transparency */
