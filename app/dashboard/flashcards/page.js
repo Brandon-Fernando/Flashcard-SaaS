@@ -41,109 +41,45 @@ export default function Flashcards() {
     
     return (
         <>
-            
-            {/* header */}
-            <AppBar sx={{
-                backgroundColor: 'white',  boxShadow: 'none', borderBottom: '1px solid #D1D1D1'
-            }}>
-                <Toolbar>
-                    <Box sx={{ width: 80, height: 30}}>
-                        <Image 
-                            src="/images/logo.png" 
-                            alt="Description of Image" 
-                            layout="responsive" 
-                            width={500} 
-                            height={300} 
-                        />
-                     </Box>
-                    <Box sx={{flexGrow: 1}}/>
-                    <SignedIn>
-                        <UserButton />
-                    </SignedIn>
-                </Toolbar>
-            </AppBar>
 
-            
-
-
-            {/* body section */}
+            {/* flashcards */}
             <Box 
-                maxWidth
-                sx={{
-                    height: 'calc(100vh - 100px)',
-                    mt: '80px', 
-                    position: 'sticky'
-                  }}
-                ml={2}
-                mr={7}
-                gap={7}
+                mx={2}
+                mt={5}
                 display="flex"
-                flexDirection="row"
-                
+                justifyContent="center"
                 >
-
-                {/* side navbar */}
-                <Box
-                    height="100%"
-                    width={120}
-                    bgcolor="#F4EDF4"
-                    borderRadius={4}
-                    display="flex"
-                    alignItems="center"
-                    flexDirection="column"
-                    pt={3}
-                    >
-                    <Box display="flex" flexDirection="column" alignItems="center" pb={4}>
-                        <HomeOutlinedIcon sx={{fontSize: 45}}/>
-                        <Typography textAlign="center">Home</Typography>
-                    </Box>
-                    <Box display="flex" flexDirection="column" alignItems="center" width={90} height={75} bgcolor="rgba(0, 0, 0, 0.1)" borderRadius={3}>
-                        <FolderOpenOutlinedIcon sx={{fontSize: 45}}/>
-                        <Typography textAlign="center">Flashcards</Typography>
-                    </Box>
-                    
-                </Box>
-                
-
-                {/* flashcards */}
-                <Box
-                    height="100%"
-                    sx={{flex: 1}}>
-                    <Stack height="100%" overflow="auto" spacing={4} >
-                        <Typography variant="h4" mb={4}>
-                            Your Flashcards
-                        </Typography>
-                        {flashcards.map((flashcard, index) => (
+                <Grid container spacing={4} justifyContent="center">
+                    {flashcards.map((flashcard, index) => (
+                        <Grid item xs={12} sm={6} md={4} key={index} >
                             <Box
-                                key={index}
-                                width="100%"
-                                height={100}
-                                border="1px solid black"
-                                boxShadow="0px 4px 6px rgba(0, 0, 0, 0.2)"
-                                borderRadius={4}
-                                display="flex"
-                                alignItems="center"
-                                justifyContent="space-between"
-                                p={4}
-                                >
-                                <Typography variant="h5" component="div" textAlign="center">
-                                    {flashcard.name}
-                                </Typography>
-                                <Stack direction="row" spacing={2} display="flex" alignItems="center">
-                                    <Button
-                                        onClick={() => handleCardClick(flashcard.name)}
-                                        sx={{bgcolor: "#64558F", color: "white", mr: 4, width: 90, 
-                                            '&:hover':{bgcolor: "#8274ac"}, 
-                                            '&:active':{bgcolor: "#3b3255"}}}>
-                                        Study
-                                    </Button>
-                                </Stack>
-                            </Box>
-
-                        ))}
-                    </Stack>
-                </Box>
-
+                                    key={index}
+                                    width={300}
+                                    height={200}
+                                    border="1.5px solid black"
+                                    boxShadow= "0px 3px 6px rgba(0, 0, 0, 0.2)"
+                                    borderRadius={2}
+                                    display="flex"
+                                    alignItems="center"
+                                    justifyContent="center"
+                                    p={4}
+                                    sx={{
+                                        '&:hover': {
+                                            borderColor: '#BA86FF', 
+                                            borderWidth: 3,
+                                            boxShadow: "0px 8px 6px rgba(0, 0, 0, 0.2)", 
+                                            cursor: 'pointer'
+                                        },
+                                    }}
+                                    onClick={() => handleCardClick(flashcard.name)}
+                                    >
+                                    <Typography variant="h5" component="div" textAlign="center">
+                                        {flashcard.name}
+                                    </Typography>
+                                </Box>
+                        </Grid>
+                    ))}
+                </Grid>
             </Box>
         </>
     )

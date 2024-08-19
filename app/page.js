@@ -50,6 +50,29 @@ export default function Home() {
     }
   }
 
+  const handleFreeTrialSubmit = async () => {
+    const checkoutSession = await fetch('/api/checkout_session', {
+      method: 'POST', 
+      headers: {origin: 'http://localhost:3000'},
+      body: JSON.stringify({planType: 'free-trial'}),
+    })
+    const checkoutSessionJson = await checkoutSession.json()
+
+    if(checkoutSession.statusCode === 500){
+      console.error(checkoutSession.message)
+      return
+    }
+
+    const stripe = await getStripe()
+    const {error} = await stripe.redirectToCheckout({
+      sessionId: checkoutSessionJson.id,
+    })
+
+    if (error) {
+      console.warn(error.message)
+    }
+  }
+
   return (
     <Container maxWidth="lg">
       <Head>

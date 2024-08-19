@@ -5,12 +5,15 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import { collection, doc, getDocs } from "firebase/firestore";
 import { db } from "@/firebase";
-import { Container, Box, Typography, Card, CardActionArea, CardContent, IconButton, AppBar, Toolbar } from "@mui/material";
+import { Container, Box, Typography, Card, CardActionArea, CardContent, IconButton, AppBar, Toolbar, Stack } from "@mui/material";
 import useEmblaCarousel from 'embla-carousel-react';
 import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material';
 import Image from 'next/image';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import FolderOpenOutlinedIcon from '@mui/icons-material/FolderOpenOutlined';
+import Sidebar from "../ui/dashboard/sidebar/sidebar";
+import Navbar from "../ui/dashboard/navbar/navbar";
+
 
 export default function Flashcard() {
     const { isLoaded, isSignedIn, user } = useUser();
@@ -73,73 +76,31 @@ export default function Flashcard() {
 
     return (
         <>
-            {/* header */}
-            <AppBar sx={{
-                backgroundColor: 'white',  boxShadow: 'none', borderBottom: '1px solid #D1D1D1'
-            }}>
-                <Toolbar>
-                    <Box sx={{ width: 80, height: 30}}>
-                        <Image 
-                            src="/images/logo.png" 
-                            alt="Description of Image" 
-                            layout="responsive" 
-                            width={500} 
-                            height={300} 
-                        />
-                     </Box>
-                    <Box sx={{flexGrow: 1}}/>
-                    <SignedIn>
-                        <UserButton />
-                    </SignedIn>
-                </Toolbar>
-            </AppBar>
-
-            {/* navbar */}
-            <Box 
-                maxWidth
-                sx={{
-                    height: 'calc(100vh - 100px)',
-                    mt: '80px', 
-                    position: 'sticky'
-                  }}
-                ml={2}
-                mr={7}
-                gap={7}
-                display="flex"
-                flexDirection="row"
-                
-                >
             
-            {/* navbar */}
-            <Box
-                height="100%"
-                width={120}
-                bgcolor="#F4EDF4"
-                borderRadius={4}
-                display="flex"
-                alignItems="center"
-                flexDirection="column"
-                pt={3}
-                >
-                <Box display="flex" flexDirection="column" alignItems="center" pb={4}>
-                    <HomeOutlinedIcon sx={{fontSize: 45}}/>
-                    <Typography textAlign="center">Home</Typography>
+
+            <Box display="flex" flexDirection="row">
+                <Box sx={{ width: '313px'}} > {/* Adjust the width as needed */}
+                <Sidebar activePath="/dashboard/flashcards"/>
                 </Box>
-                    <Box display="flex" flexDirection="column" alignItems="center" width={90} height={75} bgcolor="rgba(0, 0, 0, 0.1)" borderRadius={3}>
-                        <FolderOpenOutlinedIcon sx={{fontSize: 45}}/>
-                        <Typography textAlign="center">Flashcards</Typography>
-                    </Box>
+                <Box p="20px" sx={{ flex: 1 }}> {/* This makes the Navbar expand to fill the remaining space */}
+                <Navbar />
                 </Box>
+            </Box>
+            
+            
+            
+            
+            
 
             {/* carousel */}
             <Box
                 display="flex"
                 flexDirection="column"
                 width="100%">
-
             
-            <Typography variant="h5" >Currently Viewing: {search}</Typography>
-            <Box sx={{ mt: 2, position: 'relative' }}>
+            
+            {/* <Typography variant="h5" >Currently Viewing: {search}</Typography> */}
+            <Box sx={{ ml: "313px", mt: 2, position: 'relative' }}>
                 <Box ref={emblaRef} sx={{ overflow: 'hidden', width: '100%' }}>
                     <Box
                         sx={{
@@ -170,7 +131,7 @@ export default function Flashcard() {
                                                         position: 'relative',
                                                         width: '100%',
                                                         height: '400px',
-                                                        border: "1px solid black",
+                                                        border: "2px solid black",
                                                         boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
                                                         borderRadius: 4,
                                                         transform: flipped[index] ? 'rotateY(180deg)' : 'rotateY(0deg)',
@@ -193,12 +154,12 @@ export default function Flashcard() {
                                             >
                                                 <div>
                                                     <div>
-                                                        <Typography variant="h5" component="div">
+                                                        <Typography variant="h5" component="div" fontWeight='bold'>
                                                             {flashcard.front}
                                                         </Typography>
                                                     </div>
                                                     <div>
-                                                        <Typography variant="h5" component="div">
+                                                        <Typography variant="h5" component="div" fontWeight='bold'>
                                                             {flashcard.back}
                                                         </Typography>
                                                     </div>
@@ -211,14 +172,7 @@ export default function Flashcard() {
                         ))}
                     </Box>
                 </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-                    <IconButton onClick={scrollPrev}>
-                        <ArrowBackIos />
-                    </IconButton>
-                    <IconButton onClick={scrollNext}>
-                        <ArrowForwardIos />
-                    </IconButton>
-                </Box>
+
                 <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
                     {flashcards.map((_, index) => (
                         <Box
@@ -234,9 +188,41 @@ export default function Flashcard() {
                         />
                     ))}
                 </Box>
+
+                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+                    <IconButton onClick={scrollPrev}>
+                        <ArrowBackIos />
+                    </IconButton>
+                    <IconButton onClick={scrollNext}>
+                        <ArrowForwardIos />
+                    </IconButton>
+                </Box>
+            </Box>
+
+            <Box mt={10} ml="350px">
+                <Typography variant="h5" fontWeight='bold'>
+                    Terms In This Set
+                </Typography>
+                
+                <Stack mt={3}>
+                {flashcards.map((flashcard, index) => (
+                    <Box display="flex" flexDirection="row" key={index}>
+                        <Box border="2px solid black" width="65%" display="flex" justifyContent="center" alignItems="center" mb={3} p={6} borderRadius={2} mr={0.5}>
+                            <Typography variant="h6">
+                                {flashcard.front}
+                            </Typography>
+                        </Box>
+                        <Box border="2px solid black" width="30%"display="flex" justifyContent="center" alignItems="center" mb={3} p={6} borderRadius={2}>
+                            <Typography variant="h6">
+                                {flashcard.back}
+                            </Typography>
+                        </Box>
+                    </Box>
+                ))}
+                </Stack>
             </Box>
             </Box>
-            </Box>
+            
         </>
     );
 }
