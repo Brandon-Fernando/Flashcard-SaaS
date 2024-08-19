@@ -1,0 +1,13 @@
+.container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('/assets/background.png') no-repeat left center;
+    background-size: cover;
+    opacity: 0.6; /* Adjust opacity for transparency */
+    border-radius: 10px; /* Match the container's border radius */
+    z-index: -1;
+  }

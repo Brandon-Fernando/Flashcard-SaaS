@@ -1,0 +1,36 @@
+/* page.module.css */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #f7f7f7, #e0e0e0);
+    color: #333;
+  }
+  
+  .content {
+    text-align: center;
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .title {
+    font-size: 80px;
+    margin: 0;
+    color: #ff9800; /* Orange color for the emoji */
+  }
+  
+  .message {
+    font-size: 24px;
+    margin: 20px 0;
+    font-weight: bold;
+  }
+  
+  .description {
+    font-size: 16px;
+    color: #666;
+  }

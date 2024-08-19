@@ -1,0 +1,113 @@
+/* FileUpload.module.css */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #f5f5f5;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+    margin-top: 20px;
+  }
+  
+  .instructions {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .instructions h2 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .instructions p {
+    font-size: 16px;
+    color: #666;
+  }
+  
+  @keyframes gradientAnimation {
+    0% {
+        background-position: 0% 0%;
+    }
+    50% {
+        background-position: 100% 100%;
+    }
+    100% {
+        background-position: 0% 0%;
+    }
+  }
+  
+  .customFileInput {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    font-size: 16px;
+    color: #fff;
+    background: linear-gradient(45deg, #3498db, #8e44ad); /* Gradient from cyan to purple */
+    background-size: 300% 300%;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    margin-bottom: 20px;
+    animation: gradientAnimation 7s ease infinite; /* Apply gradient animation */
+  }
+  
+  .customFileInput:hover {
+    background: linear-gradient(45deg, #2980b9, #7d3c77); /* Darker gradient on hover */
+    background-size: 300% 300%;
+    animation: none; /* Remove animation on hover */
+  }
+  
+  .uploadIcon {
+    margin-right: 8px;
+    font-size: 18px;
+  }
+  
+  .fileInput {
+    display: none; /* Hide default file input appearance */
+  }
+  
+  .fileName {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .fileName p {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .fileName strong {
+    display: block;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .uploadButton {
+    padding: 12px 24px;
+    font-size: 16px;
+    color: #fff;
+    background: linear-gradient(45deg, #8e44ad, #3498db); /* Gradient background from purple to cyan */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .uploadButton:hover {
+    background: linear-gradient(45deg, #7d3c77, #2980b9); /* Darker gradient for hover effect */
+  }
