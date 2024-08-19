@@ -1,41 +1,63 @@
 import styles from './sidebar.module.css'
-import { BsFolderFill } from "react-icons/bs";
-import { BsFillHouseFill } from "react-icons/bs";
+import { BsArrowReturnLeft, BsFolderFill, BsFillFileTextFill, BsFileEarmarkPlusFill, BsYoutube } from "react-icons/bs";
+import { GiCardRandom } from "react-icons/gi";
 import MenuLink from './menuLink/menuLink'
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import { Button } from "@mui/material";
 
 
 const menuItems = [
     {
-        title: "Pages",
+        title: "Flashcard Creation",
         list: [
             {
-                title: "Home",
+                title: "Text",
                 path: "/dashboard/generate",
-                icon: <BsFillHouseFill />
+                icon: <BsFillFileTextFill />
             },
             {
-                title: "Library",
-                path: "/dashboard/flashcards-lib",
-                icon: <BsFolderFill />
-            }
+                title: "File Upload",
+                path: "/dashboard/file-upload",
+                icon: <BsFileEarmarkPlusFill />
+            },
+            {
+                title: "YouTube URL",
+                path: "/dashboard/generate", // change path
+                icon: <BsYoutube />
+            },
         ]
+    },
+    {
+      title: "Flashcard Archive",
+      list: [
+          {
+              title: "Library",
+              path: "/dashboard/flashcards",
+              icon: <BsFolderFill />
+          },
+      ]
+    },
+    {
+      title: "Games",
+      list: [
+          {
+              title: "Matching",
+              path: "/dashboard/flashcards", // change path
+              icon: <GiCardRandom />
+          },
+          {
+            title: "Back",
+            path: "/",
+            icon: <BsArrowReturnLeft />
+          },
+      ]
     }
 ]
 
 export default function Sidebar() {
 
   return (
-    <div className={styles.container}>
-      <SignedOut>
-        <Button color="inherit" href="/sign-in">Login</Button>
-        <Button color="inherit" href="/sign-up">Sign Up</Button>
-      </SignedOut>
+    <div className={`${styles.container} ${styles.hidden}`}>
 
-      <SignedIn>
-        <UserButton />
-      </SignedIn>
+      <BsArrowReturnLeft />
 
       <ul className={styles.list}>
         {menuItems.map(cat => (

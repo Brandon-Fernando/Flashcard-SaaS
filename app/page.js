@@ -14,7 +14,7 @@ export default function Home() {
 
   const handleDashboard = async () => {
     if (isSignedIn) {
-      router.push('/dashboard')
+      router.push('/dashboard/generate')
     } else {
       router.push('/sign-in')
     }

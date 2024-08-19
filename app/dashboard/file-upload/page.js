@@ -116,13 +116,12 @@ export default function FileUpload() {
 
         await batch.commit()
         handleClose()
-        router.push('/flashcards')
+        router.push('/dashboard/flashcards')
 
     }
 
     return (
         <div>
-            <h1>File Upload</h1>
             <input type="file" id="file" name="file" accept=".pdf" onChange={handleFileChange} />
             <button onClick={handleUpload}>Upload</button>
 

@@ -1,0 +1,20 @@
+.container {
+  padding: 20px;
+  border-radius: 10px;
+  background-color: aliceblue;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 1.4rem;
+  text-transform: capitalize;
+}

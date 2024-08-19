@@ -80,7 +80,7 @@ export default function Generate() {
 
         await batch.commit()
         handleClose()
-        router.push('/flashcards')
+        router.push('/dashboard/flashcards')
 
     }
 
