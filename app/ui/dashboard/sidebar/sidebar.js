@@ -21,7 +21,7 @@ const menuItems = [
             },
             {
                 title: "YouTube URL",
-                path: "/dashboard/generate", // change path
+                path: "/dashboard/youtube", // change path
                 icon: <BsYoutube />
             },
         ]
@@ -53,10 +53,14 @@ const menuItems = [
     }
 ]
 
-export default function Sidebar() {
+export default function Sidebar({isOpened}) {
 
   return (
-    <div className={`${styles.container} ${styles.hidden}`}>
+    <div className={`${styles.container} ${
+      isOpened 
+      ? styles.open 
+      : styles.container
+    }`}>
 
       <div className={styles.logoContainer}>
         <Image className={styles.logo} src="/assets/cardlet-logo.png" alt="logo" width={140} height={56} />
