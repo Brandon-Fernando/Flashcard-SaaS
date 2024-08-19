@@ -1,6 +1,6 @@
 import styles from './sidebar.module.css'
 import { BsArrowReturnLeft, BsFolderFill, BsFillFileTextFill, BsFileEarmarkPlusFill, BsYoutube } from "react-icons/bs";
-import { GiCardRandom } from "react-icons/gi";
+import { GiCardPick } from "react-icons/gi";
 import MenuLink from './menuLink/menuLink'
 import Image from 'next/image'
 
@@ -42,7 +42,7 @@ const menuItems = [
           {
             title: "Matching",
             path: "/dashboard/flashcards", // change path
-            icon: <GiCardRandom />
+            icon: <GiCardPick />
           },
           {
             title: "Back",
