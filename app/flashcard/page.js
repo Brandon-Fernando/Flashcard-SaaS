@@ -132,7 +132,7 @@ export default function Flashcard() {
                                                         width: '100%',
                                                         height: '400px',
                                                         border: "2px solid black",
-                                                        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
+                                                        boxShadow: "-4px 4px 6px rgba(0, 0, 0, 1)",
                                                         borderRadius: 4,
                                                         transform: flipped[index] ? 'rotateY(180deg)' : 'rotateY(0deg)',
                                                     },
@@ -207,12 +207,16 @@ export default function Flashcard() {
                 <Stack mt={3}>
                 {flashcards.map((flashcard, index) => (
                     <Box display="flex" flexDirection="row" key={index}>
-                        <Box border="2px solid black" width="65%" display="flex" justifyContent="center" alignItems="center" mb={3} p={6} borderRadius={2} mr={0.5}>
+                        <Box border="2px solid black" width="65%" display="flex" justifyContent="center" alignItems="center" mb={3} p={6} borderRadius={2} mr={1}
+                        sx={{border: "2px solid black",
+                        boxShadow: "-4px 4px 6px rgba(0, 0, 0, 1)"}}>
                             <Typography variant="h6">
                                 {flashcard.front}
                             </Typography>
                         </Box>
-                        <Box border="2px solid black" width="30%"display="flex" justifyContent="center" alignItems="center" mb={3} p={6} borderRadius={2}>
+                        <Box border="2px solid black" width="30%"display="flex" justifyContent="center" alignItems="center" mb={3} p={6} borderRadius={2}
+                        sx={{border: "2px solid black",
+                        boxShadow: "-4px 4px 6px rgba(0, 0, 0, 1)"}}>
                             <Typography variant="h6">
                                 {flashcard.back}
                             </Typography>

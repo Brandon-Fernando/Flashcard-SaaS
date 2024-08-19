@@ -56,8 +56,8 @@ export default function Flashcards() {
                                     key={index}
                                     width={300}
                                     height={200}
-                                    border="1.5px solid black"
-                                    boxShadow= "0px 3px 6px rgba(0, 0, 0, 0.2)"
+                                    border= "2px solid black"
+                                    boxShadow= "-4px 4px 6px rgba(0, 0, 0, 0.3)"
                                     borderRadius={2}
                                     display="flex"
                                     alignItems="center"
@@ -65,9 +65,9 @@ export default function Flashcards() {
                                     p={4}
                                     sx={{
                                         '&:hover': {
-                                            borderColor: '#BA86FF', 
+                                            borderColor: 'black', 
                                             borderWidth: 3,
-                                            boxShadow: "0px 8px 6px rgba(0, 0, 0, 0.2)", 
+                                            boxShadow: "-6px 6px 6px rgba(0, 0, 0, 0.8)", 
                                             cursor: 'pointer'
                                         },
                                     }}
