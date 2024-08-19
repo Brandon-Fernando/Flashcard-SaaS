@@ -7,10 +7,8 @@ import { collection, doc, getDocs } from "firebase/firestore";
 import { db } from "@/firebase";
 import { Container, Box, Typography, Card, CardActionArea, CardContent, IconButton, AppBar, Toolbar, Stack } from "@mui/material";
 import useEmblaCarousel from 'embla-carousel-react';
-import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material';
+import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
 import Image from 'next/image';
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import FolderOpenOutlinedIcon from '@mui/icons-material/FolderOpenOutlined';
 import Sidebar from "../ui/dashboard/sidebar/sidebar";
 import Navbar from "../ui/dashboard/navbar/navbar";
 
@@ -26,8 +24,8 @@ export default function Flashcard() {
     const [emblaRef, emblaApi] = useEmblaCarousel({
         axis: 'x',
         loop: true,
-        dragFree: true,
         containScroll: 'trimSnaps',
+        watchDrag: false,
     });
 
     useEffect(() => {
@@ -191,17 +189,17 @@ export default function Flashcard() {
 
                 <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
                     <IconButton onClick={scrollPrev}>
-                        <ArrowBackIos />
+                        <BsArrowLeftCircle fontSize={50} color="black" />
                     </IconButton>
                     <IconButton onClick={scrollNext}>
-                        <ArrowForwardIos />
+                    <BsArrowRightCircle fontSize={50} color="black" />
                     </IconButton>
                 </Box>
             </Box>
 
             <Box mt={10} ml="350px">
                 <Typography variant="h5" fontWeight='bold'>
-                    Terms In This Set
+                    Terms In This Set ( {flashcards.length} )
                 </Typography>
                 
                 <Stack mt={3}>
