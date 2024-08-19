@@ -1,61 +1,54 @@
 'use client'
 
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/nextjs";
 import { AppBar, Box, Button, Container, Grid, Toolbar, Typography } from "@mui/material";
 import Head from "next/head";
 import Image from "next/image";
 import getStripe from "@/utils/get-stripe";
+import { useRouter } from 'next/navigation';
 
 
 export default function Home() {
+  const { isSignedIn } = useUser()
+  const router = useRouter()
+
+  const handleDashboard = async () => {
+    if (isSignedIn) {
+      router.push('/dashboard/generate')
+    } else {
+      router.push('/sign-in')
+    }
+  }
+
+  const handleFileUpload = async () => {
+    if (isSignedIn) {
+      router.push('/file-upload')
+    } else {
+      router.push('/sign-in')
+    }
+  }
+
   const handleSubmit = async () => {
     const checkoutSession = await fetch('/api/checkout_session', {
       method: 'POST',
-      headers: { origin: 'http://localhost:3000' },
-      body: JSON.stringify({planType: 'pro'})
+      headers: { origin: 'http://localhost:3000' }, // TODO: Change when deployed to vercel
     })
     const checkoutSessionJson = await checkoutSession.json()
-
-    if(checkoutSession.statusCode === 500){
-      console.error(checkoutSession.message)
-      return 
-    }
   
-    const stripe = await getStripe()
-    const {error} = await stripe.redirectToCheckout({
-      sessionId: checkoutSessionJson.id,
-    })
-  
-    if (error) {
-      console.warn(error.message)
-    }
-  }
-
-  const handleFreeTrialSubmit = async () => {
-    const checkoutSession = await fetch('/api/checkout_session', {
-      method: 'POST', 
-      headers: {origin: 'http://localhost:3000'},
-      body: JSON.stringify({planType: 'free-trial'}),
-    })
-    const checkoutSessionJson = await checkoutSession.json()
-
-    if(checkoutSession.statusCode === 500){
+    if (checkoutSession.statusCode === 500) {
       console.error(checkoutSession.message)
       return
     }
-
+  
     const stripe = await getStripe()
     const {error} = await stripe.redirectToCheckout({
       sessionId: checkoutSessionJson.id,
     })
-
+  
     if (error) {
       console.warn(error.message)
     }
   }
-
-
-
 
   return (
     <Container maxWidth="lg">
@@ -88,8 +81,11 @@ export default function Home() {
           {' '}
           The easiest way to make flashcards from your text
         </Typography>
-        <Button variant="contained" sx={{mt: 2}}>
+        <Button variant="contained" sx={{mt: 2}} onClick={handleDashboard}>
           Get Started
+        </Button>
+        <Button variant="contained" sx={{mt: 2, ml: 2}} onClick={handleFileUpload}>
+          Get Started (File Upload)
         </Button>
       </Box>
 

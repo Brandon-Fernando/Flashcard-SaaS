@@ -1,11 +1,7 @@
 'use client'
-
-import getStripe from "@/utils/get-stripe"
-import { useRouter, useSearchParams } from "next/navigation"
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
-import { AppBar, Box, Button, CircularProgress, Container, Grid, Toolbar, Typography } from "@mui/material"
-import Head from "next/head"
-import { useEffect, useState } from "react"
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { CircularProgress, Container, Typography, Box } from '@mui/material'
 
 
 const ResultPage = () => {
@@ -15,8 +11,7 @@ const ResultPage = () => {
     const [loading, setLoading] = useState(true)
     const [session, setSession] = useState(null)
     const [error, setError] = useState(null)
-
-
+  
     useEffect(() => {
         const fetchCheckoutSession = async () => {
           if (!session_id) return
@@ -36,7 +31,6 @@ const ResultPage = () => {
         }
         fetchCheckoutSession()
       }, [session_id])
-
 
       if (loading) {
         return (
@@ -58,7 +52,6 @@ const ResultPage = () => {
           </Container>
         )
       }
-
 
       return (
         <Container maxWidth="sm" sx={{textAlign: 'center', mt: 4}}>
@@ -85,6 +78,6 @@ const ResultPage = () => {
           )}
         </Container>
       )
-  }
+}
 
 export default ResultPage

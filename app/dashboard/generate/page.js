@@ -1,7 +1,7 @@
 'use client' 
 
 import { useState } from "react"
-import { Container, TextField, Button, Typography, Box, Grid, CardContent, Card, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Paper, CardActions, CardActionArea, } from "@mui/material"
+import { CircularProgress, Container, TextField, Button, Typography, Box, Grid, CardContent, Card, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Paper, CardActions, CardActionArea, } from "@mui/material"
 import { useUser } from "@clerk/nextjs"
 import { useRouter } from "next/navigation"
 import { collection, doc, getDoc, setDoc, writeBatch } from "firebase/firestore"
@@ -12,17 +12,26 @@ export default function Generate() {
     const [text, setText] = useState('')
     const [flashcards, setFlashcards] = useState([])
     const [flipped, setFlipped] = useState([])
+    const [loading, setLoading] = useState(false)
     const {isLoaded, isSignedIn, user} = useUser()
     const [name, setName] = useState('')
     const [open, setOpen] = useState(false)
     const router = useRouter()
 
     const handleSubmit = async () => {
+        setLoading(true)
         fetch('api/generate', {
             method: 'POST', 
             body: text,
         }).then((res) => res.json())
-        .then((data) => setFlashcards(data))
+        .then((data) => {
+            setFlashcards(data)
+            setLoading(false)
+        })
+        .catch((error) => {
+            console.error('Error:', error)
+            setLoading(false)
+        })
     }
 
     const handleCardClick = (id) => {
@@ -71,7 +80,7 @@ export default function Generate() {
 
         await batch.commit()
         handleClose()
-        router.push('/flashcards')
+        router.push('/dashboard/flashcards')
 
     }
 
@@ -99,6 +108,13 @@ export default function Generate() {
                     </Button>
                 </Paper>
             </Box>
+
+            {loading && (
+                <Box sx={{mt: 4, display: 'flex', justifyContent: 'center'}}>
+                    <CircularProgress />
+                    <Typography sx={{ml: 2}}>Generating flashcards...</Typography>
+                </Box>
+            )}
 
             {flashcards.length > 0 && (
                 <Box sx={{mt: 4}}>
