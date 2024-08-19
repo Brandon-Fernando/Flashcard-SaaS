@@ -1,10 +1,11 @@
 .container {
   padding: 20px;
   border-radius: 10px;
-  background-color: aliceblue;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  box-shadow: -3px 3px 5px rgb(40, 40, 40);
+  margin-bottom: 12px;;
 }
 
 .menu {
@@ -17,4 +18,20 @@
   font-weight: bold;
   font-size: 1.4rem;
   text-transform: capitalize;
+}
+
+.menuIcon {
+  padding: 10px;
+}
+
+.menuIcon:hover {
+  cursor: pointer;
+  background-color: lightgray;
+  border-radius: 10px;
+}
+
+@media screen and (min-width: 1200px) {
+  .menuIcon {
+    display: none;
+  }
 }

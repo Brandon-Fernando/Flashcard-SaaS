@@ -4,11 +4,16 @@ import { usePathname } from 'next/navigation'
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { Button } from "@mui/material";
 import { BsList } from 'react-icons/bs';
+import { useState } from 'react';
 
 
 export default function Navbar() {
-
+    const [menuOpen, setMenuOpen] = useState(false)
     const pathname = usePathname()
+
+    const handleMenu = () => {
+        setMenuOpen(!menuOpen)
+    }
 
     return (
         <div className={styles.container}>
@@ -23,7 +28,7 @@ export default function Navbar() {
                     <UserButton />
                 </SignedIn>
 
-                <BsList />
+                <BsList className={styles.menuIcon} size={60} onClick={handleMenu} />
             </div>
         </div>
     )

@@ -2,6 +2,7 @@ import styles from './sidebar.module.css'
 import { BsArrowReturnLeft, BsFolderFill, BsFillFileTextFill, BsFileEarmarkPlusFill, BsYoutube } from "react-icons/bs";
 import { GiCardRandom } from "react-icons/gi";
 import MenuLink from './menuLink/menuLink'
+import Image from 'next/image'
 
 
 const menuItems = [
@@ -39,9 +40,9 @@ const menuItems = [
       title: "Games",
       list: [
           {
-              title: "Matching",
-              path: "/dashboard/flashcards", // change path
-              icon: <GiCardRandom />
+            title: "Matching",
+            path: "/dashboard/flashcards", // change path
+            icon: <GiCardRandom />
           },
           {
             title: "Back",
@@ -57,8 +58,9 @@ export default function Sidebar() {
   return (
     <div className={`${styles.container} ${styles.hidden}`}>
 
-      <BsArrowReturnLeft />
-
+      <div className={styles.logoContainer}>
+        <Image className={styles.logo} src="/assets/cardlet-logo.png" alt="logo" width={140} height={56} />
+      </div>
       <ul className={styles.list}>
         {menuItems.map(cat => (
           <li key={cat.title}>
