@@ -9,7 +9,8 @@ import { db } from '@/firebase';
 import { useUser } from '@clerk/nextjs';
 import QuizIcon from '@mui/icons-material/Quiz';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
-import { Global } from '@emotion/react';
+import Sidebar from "@/app/ui/dashboard/sidebar/sidebar";
+import Navbar from "@/app/ui/dashboard/navbar/navbar";
 
 export default function TestGame() {
   const { id } = useParams();  
@@ -25,19 +26,14 @@ export default function TestGame() {
   const getAnsweredCount = () => {
     return Object.keys(selectedAnswers).length;
   };
-  
+
   const adjustFontSize = (text) => {
-    const wordCount = text.split(' ').length;
     return '0.75rem'; 
   };
 
   const truncateText = (text, wordLimit) => {
     const words = text.split(' ');
-
-    if (words.length > wordLimit) {
-        return words.slice(0, wordLimit).join(' ') + '...';
-    }
-    return text;
+    return words.length > wordLimit ? words.slice(0, wordLimit).join(' ') + '...' : text;
   };
 
   const shuffleArray = (array) => {
@@ -65,11 +61,8 @@ export default function TestGame() {
     }
   }, [user, id]);
 
-  
-
   const generateOptions = (correctAnswer, flashcardsData) => {
     const options = [correctAnswer];
-    
     const possibleOptions = flashcardsData
       .map(card => card.back)
       .filter(answer => answer !== correctAnswer);
@@ -159,114 +152,81 @@ export default function TestGame() {
   }
 
   return (
-    <Container maxWidth="lg">
-      <Head>
-        <title>Flashcard SaaS - Test Game</title>
-        <meta name="description" content={`Test your knowledge with the ${id} flashcard set`} />
-      </Head>
+    <Box display="flex">
+      {/* Sidebar Section */}
+      <Box sx={{ width: '313px', position: 'fixed', left: 0, top: 0, bottom: 0, ml: '-11px' }}>
+        <Sidebar activePath="/test" />
+      </Box>
 
-      <Global
-        styles={`
-          @keyframes shake {
-            0% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            50% { transform: translateX(5px); }
-            75% { transform: translateX(-5px); }
-            100% { transform: translateX(0); }
-          }
-        `}
-      />
-      
-      {/* Top Bar */}
-      <Box
-        sx={{
-          width: '100vw', 
-          height: '80px', 
-          display: 'flex',
-          justifyContent: 'space-between', 
-          alignItems: 'center',
-          backgroundColor: '#B5A1E0', 
-          color: '#fff', 
-          padding: '10px 20px',
-          marginBottom: '20px',
-          boxSizing: 'border-box',
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          zIndex: 1000, 
-        }}
-      >
-        <Box 
-          sx = {{ flex: 1, textAlign: 'center' }}>
-          <Typography variant="h6" sx={{ fontWeight: 'bold'}}>
-            {id} - Test Game
-          </Typography>
-        </Box>
-
-        <Box
-          sx = {{
-            display: 'flex',
-            alignItems: 'center',
-            backgroundColor: '#B5A1E0',
-            borderRadius: '25px',
-            padding: '5px 10px 5px 2px',
-            color: '#fff',
-            position: 'absolute',
-            left: '20px',
-            border: '2px solid #fff',
-            transition: 'background-color 0.3s, color 0.3s',
-            cursor: 'pointer',
-            '&:hover': {
-              backgroundColor: '#fff',
-              color: '#B5A1E0',
-              '& svg': {
-                color: '#B5A1E0',
-              },
-            },
-          }}
-          onClick={() => window.location.href = '/test'}
-        >
-          <ArrowLeftIcon sx={{ mr: 0.5 }} />
-          <Typography
-            variant="body1"
+      {/* Main Content Section */}
+      <Box sx={{ flex: 1, ml: '313px', mt: '20px' }}>
+        <Navbar />
+        
+        {/* Buttons Under Navbar */}
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2, px: 3 }}>
+          {/* Back Button */}
+          <Box
             sx={{
-              fontWeight: 'bold',
+              display: 'flex',
+              alignItems: 'center',
+              backgroundColor: '#fff',
+              borderRadius: '25px',
+              padding: '5px 10px 5px 2px',
+              color: '#000',
+              cursor: 'pointer',
+              border: '2px solid #000',
+              transition: 'background-color 0.3s, color 0.3s',
+              '&:hover': {
+                backgroundColor: '#000',
+                color: '#fff',
+              },
+            }}
+            onClick={() => window.location.href = '/test'}
+          >
+            <ArrowLeftIcon sx={{ mr: 0.5 }} />
+            <Typography variant="body1" sx={{ fontWeight: 'bold' }}>Back</Typography>
+          </Box>
+
+          {/* Answer Tracker */}
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              backgroundColor: '#fff',
+              borderRadius: '25px',
+              padding: '5px 15px',
+              color: '#000',
+              border: '2px solid #000',
+              transition: 'background-color 0.3s, color 0.3s',
+              '&:hover': {
+                backgroundColor: '#000',
+                color: '#fff',
+              },
             }}
           >
-            Back
-          </Typography>
-        </Box>
+            <QuizIcon sx={{ mr: 1 }} />
+            <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+              {getAnsweredCount()}/{questions.length}
+            </Typography>
+          </Box>
 
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            position: 'absolute',
-            right: '20px',
-            top: '20px',
-          }}
-        >
+          {/* Submit Button */}
           {getAnsweredCount() === questions.length && (
             <Button
               variant="contained"
               color="primary"
               sx={{
-                mr: 2, 
-                backgroundColor: '#B5A1E0',
+                backgroundColor: '#fff',
                 borderRadius: '25px',
                 padding: '5px 15px',
-                color: '#fff',
-                border: '2px solid #fff',
-                opacity: 0,
-                animation: 'fadeIn 1s forwards',
-                '@keyframes fadeIn': {
-                  '0%': { opacity: 0, transform: 'translateX(-20px)' },
-                  '100%': { opacity: 1, transform: 'translateX(0)' },
-                },
+                color: '#000',
+                fontWeight: 'bold',
+                border: '2px solid #000',
+                transition:'background-color 0.3s, color 0.3s',
                 '&:hover': {
-                  backgroundColor: '#fff',
-                  color: '#B5A1E0',
-                  borderColor: '#fff',
+                  backgroundColor: '#000',
+                  color: '#fff',
+                  borderColor: '#000',
                 },
               }}
               onClick={handleSubmitAnswers}
@@ -274,121 +234,96 @@ export default function TestGame() {
               Submit
             </Button>
           )}
-
-          <Box
-            sx = {{
-              display: 'flex',
-              alignItems: 'center',
-              backgroundColor: '#B5A1E0',
-              borderRadius: '25px',
-              padding: '5px 15px',
-              color: '#fff',
-              border: '2px solid #fff',
-              transition: 'background-color 0.3s, color 0.3s',
-              '&:hover': {
-                backgroundColor: '#fff',
-                color: '#B5A1E0',
-                '& svg': {
-                  color: '#B5A1E0'
-                },
-              },
-            }}
-          >
-            <QuizIcon sx={{ mr: 1 }} />
-            <Typography
-              variant="body1"
-              sx={{
-                fontWeight: 'bold',
-              }}
-            >
-              {getAnsweredCount()}/{questions.length}
-            </Typography>
-          </Box>
         </Box>
-      </Box>
 
-      <Box sx={{ display: 'flex' }}></Box>
-      
-      {/* Test Game Content */}
-      <Box 
-        sx={{
-          mt: '100px'  
-        }}
-      >
-        {questions.map((question, index) => (
+        <Container maxWidth="lg">
+          <Head>
+            <title>Flashcard SaaS - Test Game</title>
+            <meta name="description" content={`Test your knowledge with the ${id} flashcard set`} />
+          </Head>
+          
+          {/* Test Game Content */}
           <Box 
-            key={index} 
-            sx={{ 
-              mb: 4, 
-              p: 3, 
-              backgroundColor: '#FFFFFF',  
-              borderRadius: '8px',
-              border: '0px solid #000000',
-              boxShadow: selectedAnswers[index] ? '0px 4px 12px rgba(181, 161, 224, 2)' : '0px 4px 12px rgba(0, 0, 0, 0.3)', 
-              width: '80%',
-              minHeight: '480px',
-              marginLeft: '300px',
+            sx={{
+              mt: '100px'  
             }}
           >
-            <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
-                {question.question}
-            </Typography>
+            {questions.map((question, index) => (
+              <Box 
+                key={index} 
+                sx={{ 
+                  mb: 13, 
+                  p: 3, 
+                  backgroundColor: '#FFFFFF',  
+                  borderRadius: '8px',
+                  boxShadow: selectedAnswers[index] ? '0px 4px 12px rgba(181, 161, 224, 2)' : '0px 4px 12px rgba(0, 0, 0, 0.3)', 
+                  width: '90%',
+                  minHeight: '480px',
+                  marginLeft: '45px',
+                  mt: '-50px',
+                }}
+              >
+                <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
+                  {question.question}
+                </Typography>
 
-            <Box
-              sx={{
-                display: 'flex', 
-                flexDirection: 'row', 
-                flexWrap: 'wrap',
-                justifyContent: 'space-between',  // Space between each option
-                gap: '16px',  // Gap between buttons
-                marginTop: '90px',
-              }}
-            >
-              {question.options.map((option, i) => (
                 <Box
-                  key={i}
                   sx={{
-                    flexBasis: 'calc(50% - 8px)', 
-                    height: '130px',  
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'flex-start',
-                    paddingLeft: '12px',
-                    border: `1px solid ${selectedAnswers[index] === option ? '#B5A1E0' : '#000000'}`,
-                    borderRadius: '8px',
-                    backgroundColor: selectedAnswers[index] === option ? '#B5A1E0' : '#FFFFFF',                    
-                    color: selectedAnswers[index] === option ? '#FFFFFF' : '#000000', 
-                    fontWeight: 'bold',
-                    cursor: 'pointer',
-                    transition: 'background-color 0.3s, color 0.3s, border-color 0.3s',
-                    fontSize: adjustFontSize(option),
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    marginBottom: '0px',
-                    '&:hover': {
-                        backgroundColor: selectedAnswers[index] === option ? '#B5A1E0' : '#B5A1E0',
-                        color: selectedAnswers[index] === option ? '#FFFFFF' : '#FFFFFF',
-                        borderColor: selectedAnswers[index] === option ? '#FFFFFF' : '#FFFFFF',
-                    },
+                    display: 'flex', 
+                    flexDirection: 'row', 
+                    flexWrap: 'wrap',
+                    justifyContent: 'space-between',  // Space between each option
+                    gap: '16px',  // Gap between buttons
+                    marginTop: '90px',
                   }}
-                  onClick={() => handleAnswerChange(index, { target: { value: option } })}
                 >
-                    <Typography
+                  {question.options.map((option, i) => (
+                    <Box
+                      key={i}
+                      sx={{
+                        flexBasis: 'calc(50% - 8px)', 
+                        height: '130px',  
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'flex-start',
+                        paddingLeft: '12px',
+                        border: `1px solid ${selectedAnswers[index] === option ? '#B5A1E0' : '#000000'}`,
+                        borderRadius: '8px',
+                        backgroundColor: selectedAnswers[index] === option ? '#B5A1E0' : '#FFFFFF',                    
+                        color: selectedAnswers[index] === option ? '#FFFFFF' : '#000000', 
+                        fontWeight: 'bold',
+                        cursor: 'pointer',
+                        transition: 'background-color 0.3s, color 0.3s, border-color 0.3s',
+                        fontSize: adjustFontSize(option),
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        marginBottom: '0px',
+                        '&:hover': {
+                          backgroundColor: selectedAnswers[index] === option ? '#B5A1E0' : '#B5A1E0',
+                          color: selectedAnswers[index] === option ? '#FFFFFF' : '#FFFFFF',
+                          borderColor: selectedAnswers[index] === option ? '#FFFFFF' : '#FFFFFF',
+                        },
+                      }}
+                      onClick={() => handleAnswerChange(index, { target: { value: option } })}
+                    >
+                      <Typography
                         variant="body1"
                         sx={{
-                            whiteSpace:'normal',
-                            overflowWrap: 'break-word',
-                            fontWeight: 'bold',
+                          whiteSpace: 'normal',
+                          overflowWrap: 'break-word',
+                          fontWeight: 'bold',
                         }}
-                    >
-                        {truncateText(option, 28)}
-                    </Typography>
+                      >
+                        {truncateText(option, 20)}
+                      </Typography>
+                    </Box>
+                  ))}
                 </Box>
-              ))}
-            </Box>
+              </Box>
+            ))}
           </Box>
-        ))}
+        </Container>
       </Box>
-    </Container>
+    </Box>
   );
 }

@@ -9,6 +9,8 @@ import { useUser } from '@clerk/nextjs';
 import { Global } from '@emotion/react';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import Sidebar from "@/app/ui/dashboard/sidebar/sidebar";
+import Navbar from "@/app/ui/dashboard/navbar/navbar";
 
 export default function MatchGame() {
   const params = useParams();
@@ -147,193 +149,168 @@ export default function MatchGame() {
   };
 
   return (
-    <Container maxWidth="lg">
-      <Global
-        styles={`
-          @keyframes shake {
-            0% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            50% { transform: translateX(5px); }
-            75% { transform: translateX(-5px); }
-            100% { transform: translateX(0); }
-          }
-        `}
-      />
-      
-      {/* Top Bar */}
-      <Box
-        sx={{
+    <Box display="flex">
+      {/* Sidebar Section */}
+      <Box sx={{ width: '313px', position: 'fixed', left: 0, top: 0, bottom: 0, ml: '-11px' }}>
+        <Sidebar activePath="/match" />
+      </Box>
+
+      {/* Main Content Section */}
+      <Box sx={{ flex: 1, ml: '313px', mt: '20px' }}>
+        <Navbar />
+
+        {/* Buttons Under Navbar */}
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2, px: 3 }}>
+          {/* Back Button */}
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              backgroundColor: '#fff',
+              borderRadius: '25px',
+              padding: '5px 10px 5px 2px',
+              color: '#000',
+              cursor: 'pointer',
+              border: '2px solid #000',
+              transition: 'background-color 0.3s, color 0.3s',
+              '&:hover': {
+                backgroundColor: '#000',
+                color: '#fff',
+              },
+            }}
+            onClick={() => window.location.href = '/match'}
+          >
+            <ArrowLeftIcon sx={{ mr: 0.5 }} />
+            <Typography variant="body1" sx={{ fontWeight: 'bold' }}>Back</Typography>
+          </Box>
+
+          {/* Timer */}
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              backgroundColor: '#fff',
+              borderRadius: '25px',
+              padding: '5px 15px',
+              color: '#000',
+              border: '2px solid #000',
+              transition: 'background-color 0.3s, color 0.3s',
+              '&:hover': {
+                backgroundColor: '#000',
+                color: '#fff',
+                '& svg': {
+                  color: '#fff',
+                },
+              },
+            }}
+          >
+            <AccessTimeIcon sx={{ mr: 1 }} />
+            <Typography
+              variant="body1"
+              sx={{
+                fontWeight: 'bold',
+              }}
+            >
+              {timer.toFixed(1)}s
+            </Typography>
+          </Box>
+        </Box>
+
+        <Container maxWidth="lg">
+          <Global
+            styles={`
+              @keyframes shake {
+                0% { transform: translateX(0); }
+                25% { transform: translateX(-5px); }
+                50% { transform: translateX(5px); }
+                75% { transform: translateX(-5px); }
+                100% { transform: translateX(0); }
+              }
+            `}
+          />
           
-          width: '100vw', 
-          height: '80px', 
-          display: 'flex',
-          justifyContent: 'space-between', 
-          alignItems: 'center',
-          backgroundColor: '#B5A1E0', 
-          color: '#fff', 
-          padding: '10px 20px',
-          marginBottom: '20px',
-          boxSizing: 'border-box',
-          position: 'fixed',
-          top: 0,
-          left: 0,
-        }}
-      >
-        <Box 
-          sx = {{ flex: 1, textAlign: 'center' }}>
-          <Typography variant="h6" sx={{ fontWeight: 'bold'}}>
-            {id} - Match Game
-          </Typography>
-        </Box>
-
-        <Box
-          sx = {{
-            display: 'flex',
-            alignItems: 'center',
-            backgroundColor: '#B5A1E0',
-            borderRadius: '25px',
-            padding: '5px 10px 5px 2px',
-            color: '#fff',
-            position: 'absolute',
-            left: '20px',
-            border: '2px solid #fff',
-            transition: 'background-color 0.3s, color 0.3s',
-            cursor: 'pointer',
-            '&:hover': {
-              backgroundColor: '#fff',
-              color: '#B5A1E0',
-              '& svg': {
-                color: '#B5A1E0',
-              },
-            },
-          }}
-          onClick={() => window.location.href = '/match'}
-        >
-          <ArrowLeftIcon sx={{ mr: 0.5 }} />
-          <Typography
-            variant="body1"
-            sx={{
-              fontWeight: 'bold',
-            }}
-          >
-            Back
-          </Typography>
-        </Box>
-
-        <Box
-          sx = {{
-            display: 'flex',
-            alignItems: 'center',
-            backgroundColor: '#B5A1E0',
-            borderRadius: '25px',
-            padding: '5px 15px',
-            color: '#fff',
-            position: 'absolute',
-            right: '20px',
-            border: '2px solid #fff',
-            transition: 'background-color 0.3s, color 0.3s',
-            '&:hover': {
-              backgroundColor: '#fff',
-              color: '#B5A1E0',
-              '& svg': {
-                color: '#B5A1E0'
-              },
-            },
-          }}
-        >
-          <AccessTimeIcon sx={{ mr: 1 }} />
-          <Typography
-            variant="body1"
-            sx={{
-              fontWeight: 'bold',
-            }}
-          >
-            {timer.toFixed(1)}s
-          </Typography>
-        </Box>
-      </Box>
-
-      {/* Match Game Grid */}
-      <Box sx={{ textAlign: 'center', my: 4, mt: '100px' }}>
-        <Grid 
-          container 
-          spacing={3} 
-          justifyContent="center" 
-          alignItems="center" 
-          sx={{ 
-            width: '100%',
-            maxWidth: '100%',
-            margin: '0 auto',
-            px:0, 
-          }}
-        >
-          {tiles.map((tile, index) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={index} sx={{ display: 'flex', justifyContent: 'center' }}>
-              <Paper
-                sx={{
-                  p: 3,
-                  textAlign: 'center',
-                  cursor: tile.matched ? 'default' : 'pointer',
-                  backgroundColor: tile.hidden
-                    ? 'transparent'
-                    : tile.green 
-                    ? 'rgba(144, 238, 144, 0.5)' 
-                    : selectedTiles.some(selected => selected.index === index && tile.incorrect)
-                    ? 'rgba(255, 99, 71, 0.5)' 
-                    : selectedTiles.some(selected => selected.index === index)
-                    ? 'rgba(186, 104, 200, 0.5)'
-                    : '#F8F3FC',
-                  visibility: tile.hidden ? 'hidden' : 'visible',
-                  border: tile.hidden
-                    ? 'none'
-                    : tile.matched
-                    ? '2px solid rgba(144, 238, 144, 0.8)'
-                    : selectedTiles.some(selected => selected.index === index && tile.incorrect)
-                    ? '2px solid rgba(255, 99, 71, 0.8)'
-                    : 'none', 
-                  height: '180px',  // Fixed height
-                  width: '100%', 
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.2)',
-                  borderRadius: '8px',
-                  opacity: tile.fadeOut ? 0 : 1, 
-                  transition: 'background-color 0.5s ease, opacity 0.5s ease-out, border 0.5s ease',
-                  transition: tile.fadeOut ? 'opacity 0.3s ease-out' : 'opacity 0.2s', 
-                  transform: tile.shake ? 'translateX(0)' : 'scale(1)', 
-                  animation: tile.shake ? 'shake 0.3s' : 'none', 
-                  overflow: 'hidden', // Ensure content is contained
-                  '&:hover' : tile.matched ? {} : {
-                    backgroundColor: 'rgba(186, 104, 200, 0.5)',
-                    color: '#fff',
-                  },
-                  '&:hover' : (tile.matched || tile.incorrect) ? {} : {
-                    backgroundColor: 'rgba(186, 104, 200, 0.5)',
-                  }
-                }}
-                onClick={() => !tile.matched && handleTileClick(index)}
-              >
-                <Typography
-                  variant="body1"
-                  sx={{
-                    fontSize: tile.text.length > 200? '0.750rem':'0.875rem',
-                    lineHeight: 'normal',
-                    userSelect: 'none',
-                    color: 'inherit',
-                    whiteSpace: 'normal',
-                    wordBreak: 'break-word',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                  }}
-                >
-                  {tile.text}
-                </Typography>
-              </Paper>
+          {/* Match Game Grid */}
+          <Box sx={{ textAlign: 'center', my: 4, mt: '-5px' }}>
+            <Grid 
+              container 
+              spacing={3} 
+              justifyContent="center" 
+              alignItems="center" 
+              sx={{ 
+                width: '100%',
+                maxWidth: '100%',
+                margin: '0 auto',
+                px: 0, 
+              }}
+            >
+              {tiles.map((tile, index) => (
+                <Grid item xs={12} sm={6} md={4} lg={3} key={index} sx={{ display: 'flex', justifyContent: 'center' }}>
+                  <Paper
+                    sx={{
+                      p: 3,
+                      textAlign: 'center',
+                      cursor: tile.matched ? 'default' : 'pointer',
+                      backgroundColor: tile.hidden
+                        ? 'transparent'
+                        : tile.green 
+                        ? 'rgba(144, 238, 144, 0.5)' 
+                        : selectedTiles.some(selected => selected.index === index && tile.incorrect)
+                        ? 'rgba(255, 99, 71, 0.5)' 
+                        : selectedTiles.some(selected => selected.index === index)
+                        ? 'rgba(186, 104, 200, 0.5)'
+                        : '#F8F3FC',
+                      visibility: tile.hidden ? 'hidden' : 'visible',
+                      border: tile.hidden
+                        ? 'none'
+                        : tile.matched
+                        ? '2px solid rgba(144, 238, 144, 0.8)'
+                        : selectedTiles.some(selected => selected.index === index && tile.incorrect)
+                        ? '2px solid rgba(255, 99, 71, 0.8)'
+                        : 'none', 
+                      height: '180px',  // Fixed height
+                      width: '100%', 
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.2)',
+                      borderRadius: '8px',
+                      opacity: tile.fadeOut ? 0 : 1, 
+                      transition: 'background-color 0.5s ease, opacity 0.5s ease-out, border 0.5s ease',
+                      transform: tile.shake ? 'translateX(0)' : 'scale(1)', 
+                      animation: tile.shake ? 'shake 0.3s' : 'none', 
+                      overflow: 'hidden', // Ensure content is contained
+                      '&:hover' : tile.matched ? {} : {
+                        backgroundColor: 'rgba(186, 104, 200, 0.5)',
+                        color: '#fff',
+                      },
+                      '&:hover' : (tile.matched || tile.incorrect) ? {} : {
+                        backgroundColor: 'rgba(186, 104, 200, 0.5)',
+                      }
+                    }}
+                    onClick={() => !tile.matched && handleTileClick(index)}
+                  >
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: tile.text.length > 200? '0.750rem':'0.875rem',
+                        lineHeight: 'normal',
+                        userSelect: 'none',
+                        color: 'inherit',
+                        whiteSpace: 'normal',
+                        wordBreak: 'break-word',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                      }}
+                    >
+                      {tile.text}
+                    </Typography>
+                  </Paper>
+                </Grid>
+              ))}
             </Grid>
-          ))}
-        </Grid>
+          </Box>
+        </Container>
       </Box>
-    </Container>
+    </Box>
   );
 }
