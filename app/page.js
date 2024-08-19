@@ -29,6 +29,10 @@ export default function Home() {
   }
 
   const handleSubmit = async () => {
+    if (!isSignedIn) {
+      router.push('/sign-in')
+      return
+    }
     const checkoutSession = await fetch('/api/checkout_session', {
       method: 'POST',
       headers: { origin: 'http://localhost:3000' }, // TODO: Change when deployed to vercel
