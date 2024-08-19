@@ -1,7 +1,7 @@
 'use client'
 
 import { useUser } from "@clerk/nextjs";
-import { Card, CardActionArea, CardContent, Container, Grid, Typography } from "@mui/material";
+import { Button, Card, CardActionArea, CardContent, Container, Grid, Typography } from "@mui/material";
 import { useRouter } from "next/navigation"
 import { useEffect, useState, use } from "react";
 import { collection, CollectionReference, doc, getDoc, setDoc } from "firebase/firestore";
@@ -38,6 +38,7 @@ export default function Flashcards() {
     
     return (
         <Container maxWidth="md">
+
             <Grid container spacing={3} sx={{mt: 4}}>
                 {flashcards.map((flashcard, index) => (
                     <Grid item xs={12} sm={6} md={4} key={index}>
