@@ -22,6 +22,7 @@
 
 .menuIcon {
   padding: 10px;
+  user-select: none;
 }
 
 .menuIcon:hover {
