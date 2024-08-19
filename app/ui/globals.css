@@ -1,0 +1,20 @@
+:root {
+    --text: black;
+    --textSoft: #36454F;
+  }
+  
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+  
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  .cl-avatarBox {
+    width: 2.75rem;
+    height: 2.75rem;
+  }

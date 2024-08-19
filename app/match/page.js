@@ -1,15 +1,15 @@
-'use client'
+'use client';
 
 import { useState, useEffect } from "react";
 import { useUser } from "@clerk/nextjs";
-import { Container, Typography, Box, Grid, Card, CardActionArea, CardContent, CircularProgress, IconButton, AppBar, Toolbar } from "@mui/material";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import Head from "next/head";
+import { Container, Typography, Box, Grid, Card, CardActionArea, CardContent, CircularProgress } from "@mui/material";
+import { useRouter } from "next/navigation";
 import { collection, doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase";
-import { useRouter } from "next/navigation";
+import Sidebar from "@/app/ui/dashboard/sidebar/sidebar";
+import Navbar from "@/app/ui/dashboard/navbar/navbar";
 
-export default function MatchSelect() {
+export default function Match() {
   const { user, isLoaded } = useUser();
   const [flashcardSets, setFlashcardSets] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -33,10 +33,6 @@ export default function MatchSelect() {
     router.push(`/match/${setName}`);
   };
 
-  const handleBack = () => {
-    router.push('/');
-  };
-
   if (loading) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
@@ -46,61 +42,51 @@ export default function MatchSelect() {
   }
 
   return (
-    <Container maxWidth="lg">
-      <Head>
-        <title>Flashcard SaaS - Match Game</title>
-        <meta name="description" content="Play the Match game with your flashcards"/>
-      </Head>
-
-      {/* AppBar with "Match" Title and Back Button */}
-      <AppBar position="static">
-        <Toolbar sx={{ justifyContent: 'space-between' }}>
-          <IconButton edge="start" color="inherit" onClick={handleBack}>
-            <ArrowBackIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
-            Match
-          </Typography>
-          <Box sx={{ width: 48 }} /> {/* Empty box to balance the space on the right */}
-        </Toolbar>
-      </AppBar>
-
-      <Box 
-        sx={{
-          textAlign: 'center', 
-          my: 4,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '70vh'
-        }}>
-        
-        <Typography variant="h2" gutterBottom>Match Game</Typography>
-        <Typography variant="h5" sx={{mb: 4}}>
-          Select a flashcard set to start the game:
-        </Typography>
-
-        <Grid container spacing={3} justifyContent="center">
-          {flashcardSets.length === 0 ? (
-            <Typography variant="h6">No flashcard sets found. Please create some first.</Typography>
-          ) : (
-            flashcardSets.map((set, index) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-                <Card>
-                  <CardActionArea onClick={() => handleSelectSet(set.name)}>
-                    <CardContent>
-                      <Typography variant="h6" component="div">
-                        {set.name}
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              </Grid>
-            ))
-          )}
-        </Grid>
+    <Box display="flex">
+      {/* Sidebar Section */}
+      <Box sx={{ width: '313px', position: 'fixed', left: 0, top: 0, bottom: 0, ml: '-11px' }}>
+        <Sidebar activePath="/match" />
       </Box>
-    </Container>
+      {/* Main Content Section */}
+      <Box sx={{ flex: 1, ml: '313px', mt: '20px' }}>
+        <Navbar />
+        <Container sx={{ mt: 2 }}> {/* Adjust the margin-top here if needed */}
+          <Box 
+            sx={{
+              textAlign: 'center', 
+              mt: 2,  // Adjust the margin-top to bring the text higher
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            
+            <Typography variant="h5" gutterBottom sx={{ ml: '-70px', mt:'40px' }}>
+              Select a Flashcard Set to Start the Match Game
+            </Typography>
+
+            <Grid container spacing={2} justifyContent="center" sx={{ mt: 4 }}> {/* Add margin-top to the Grid */}
+              {flashcardSets.length === 0 ? (
+                <Typography variant="h6">No flashcard sets found. Please create some first.</Typography>
+              ) : (
+                flashcardSets.map((set, index) => (
+                  <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+                    <Card sx={{ maxWidth: 200 }}>
+                      <CardActionArea onClick={() => handleSelectSet(set.name)}>
+                        <CardContent>
+                          <Typography variant="h6" component="div">
+                            {set.name}
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
+                  </Grid>
+                ))
+              )}
+            </Grid>
+          </Box>
+        </Container>
+      </Box>
+    </Box>
   );
 }
