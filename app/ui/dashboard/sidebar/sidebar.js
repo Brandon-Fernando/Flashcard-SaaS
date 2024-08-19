@@ -4,6 +4,7 @@ import { GiCardPick } from "react-icons/gi";
 import MenuLink from './menuLink/menuLink'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
+import { LuFileEdit } from "react-icons/lu";
 import { BsX } from 'react-icons/bs'
 
 
@@ -23,7 +24,7 @@ const menuItems = [
             },
             {
                 title: "YouTube URL",
-                path: "/dashboard/youtube", // change path
+                path: "/dashboard/youtube",
                 icon: <BsYoutube />
             },
         ]
@@ -45,6 +46,11 @@ const menuItems = [
             title: "Matching",
             path: "/dashboard/flashcards", // change path
             icon: <GiCardPick />
+          },
+          {
+            title: "Practice Test",
+            path: "/dashboard/flashcards", // change path
+            icon: <LuFileEdit />
           },
           {
             title: "Back",
