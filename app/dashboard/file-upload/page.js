@@ -1,5 +1,4 @@
-'use client' 
-
+'use client'
 import { useState } from "react"
 import { CircularProgress, Container, TextField, Button, Typography, Box, Grid, CardContent, Card, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Paper, CardActions, CardActionArea, } from "@mui/material"
 import { useUser } from "@clerk/nextjs"
@@ -8,17 +7,61 @@ import { collection, doc, getDoc, setDoc, writeBatch } from "firebase/firestore"
 import { db } from "@/firebase"
 
 
-export default function Generate() {
+export default function FileUpload() {
+    const [file, setFile] = useState(null)
     const [text, setText] = useState('')
     const [flashcards, setFlashcards] = useState([])
     const [flipped, setFlipped] = useState([])
     const [loading, setLoading] = useState(false)
-    const {isLoaded, isSignedIn, user} = useUser()
     const [name, setName] = useState('')
     const [open, setOpen] = useState(false)
+    const {isLoaded, isSignedIn, user} = useUser()
     const router = useRouter()
 
-    const handleSubmit = async () => {
+    const handleCardClick = (id) => {
+        setFlipped((prev) => ({
+            ...prev, 
+            [id]: !prev[id],
+        }))
+    }
+
+    const handleFileChange = (e) => {
+        setFile(e.target.files[0])
+    }
+    
+    const handleUpload = () => {
+        if (file) {
+            const fileReader = new FileReader()
+            fileReader.onload = onLoadFile
+            fileReader.readAsArrayBuffer(file)
+        } else {
+            console.warn('No file selected')
+            alert('No File Selected')
+        }
+    }
+
+    const onLoadFile = (e) => {
+        const typedArray = new Uint8Array(e.target.result)
+        pdfjsLib.getDocument({
+            data: typedArray
+        }).promise.then((pdf) => {
+            console.log("loaded pdf: ", pdf.numPages)
+            pdf.getPage(1).then((page) => {
+                page.getTextContent().then((content) => {
+                    let text = ''
+                    content.items.forEach((item) => {
+                        text += item.str + ''
+                    })
+                    // console.log('text: ', text)
+                    sendToAPI(text)
+                })
+            })
+        }).catch((error) => {
+            console.error('Error loading PDF: ', error)
+        })
+    }
+
+    const sendToAPI = async (text) => {
         setLoading(true)
         fetch('api/generate', {
             method: 'POST', 
@@ -32,13 +75,6 @@ export default function Generate() {
             console.error('Error:', error)
             setLoading(false)
         })
-    }
-
-    const handleCardClick = (id) => {
-        setFlipped((prev) => ({
-            ...prev, 
-            [id]: !prev[id],
-        }))
     }
 
     const handleOpen = () => {
@@ -80,34 +116,14 @@ export default function Generate() {
 
         await batch.commit()
         handleClose()
-        router.push('/flashcards')
+        router.push('/dashboard/flashcards')
 
     }
 
-    return(
-        <Container maxWidth="md">
-            <Box sx={{
-                mt: 4, mb: 6, display: 'flex', flexDirection: 'column', alignItems: 'center'
-            }}>
-                <Typography variant="h4">Generate Flashcards</Typography>
-                <Paper sx={{p: 4, width: '100%'}}>
-                    <TextField
-                        value={text}
-                        onChange={(e) => setText(e.target.value)}
-                        label="Enter text"
-                        fullWidth
-                        multiline
-                        rows={4}
-                        variant="outlined"
-                        sx={{mb: 2}}
-                    />
-                    <Button 
-                        variant="contained" onClick={handleSubmit} fullWidth>
-                        {' '}
-                        Submit
-                    </Button>
-                </Paper>
-            </Box>
+    return (
+        <div>
+            <input type="file" id="file" name="file" accept=".pdf" onChange={handleFileChange} />
+            <button onClick={handleUpload}>Upload</button>
 
             {loading && (
                 <Box sx={{mt: 4, display: 'flex', justifyContent: 'center'}}>
@@ -200,9 +216,6 @@ export default function Generate() {
                     </Button>
                 </DialogActions>
             </Dialog>
-            
-        </Container>
+        </div>
     )
-       
-    
 }

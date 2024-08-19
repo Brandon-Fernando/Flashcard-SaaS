@@ -1,0 +1,17 @@
+.container {
+    display: flex;
+    align-items: flex-start;
+
+}
+
+.content {
+    flex: 4;
+    padding: 20px;
+    margin-left: 0;
+}
+
+@media screen and (min-width: 1200px) {
+    .content {
+        margin-left: 312px;
+    }
+}

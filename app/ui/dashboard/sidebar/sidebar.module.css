@@ -1,0 +1,61 @@
+.container {
+    position: fixed;
+    height: 96vh;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    border-radius: 12px;
+    padding: 16px;
+    width: 280px;
+    margin-top: 20px;
+    box-shadow: -3px 4px 5px rgb(40, 40, 40);
+}
+
+/* Background image with white transparency */
+.container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('/assets/background.png') no-repeat left center;
+    background-size: cover;
+    opacity: 0.5; /* Adjust opacity for transparency */
+    border-radius: 10px; /* Match the container's border radius */
+    z-index: -1; /* Ensure it is behind the container's content */
+  }
+  
+  /* Ensure content appears above the image */
+  .container > * {
+    position: relative;
+    z-index: 1;
+  }
+
+@media screen and (min-width: 1200px) {
+    .container {
+        transform: translateX(10%);
+        transition: transform 0.3s ease;
+    }
+}
+
+.list {
+    list-style: none;
+}
+
+.cat {
+    color: #222121;
+    font-weight: bold;
+    font-size: 12px;
+    margin: 10px 0px;
+    text-align: center;
+}
+
+.logoContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo {
+    margin-bottom: 20px;
+}

@@ -12,9 +12,9 @@ export default function Home() {
   const { isSignedIn } = useUser()
   const router = useRouter()
 
-  const handleGenerate = async () => {
+  const handleDashboard = async () => {
     if (isSignedIn) {
-      router.push('/generate')
+      router.push('/dashboard/generate')
     } else {
       router.push('/sign-in')
     }
@@ -81,7 +81,7 @@ export default function Home() {
           {' '}
           The easiest way to make flashcards from your text
         </Typography>
-        <Button variant="contained" sx={{mt: 2}} onClick={handleGenerate}>
+        <Button variant="contained" sx={{mt: 2}} onClick={handleDashboard}>
           Get Started
         </Button>
         <Button variant="contained" sx={{mt: 2, ml: 2}} onClick={handleFileUpload}>
