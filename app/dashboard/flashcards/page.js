@@ -71,7 +71,7 @@ export default function Flashcards() {
             height="100%"
             sx={{ flex: 1, position: 'relative' }}
         >
-            <Stack height="100%" overflow="auto" spacing={4} mx={10} p={3}>
+            <Stack height="100%" overflow="auto" spacing={4} mx={6} p={3}>
                 {flashcards.map((flashcard, index) => (
                     <Box
                         key={index}
