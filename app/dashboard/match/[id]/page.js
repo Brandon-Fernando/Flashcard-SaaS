@@ -10,6 +10,7 @@ import { Global } from '@emotion/react';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import { useRouter } from 'next/navigation';
+import Head from 'next/head';
 
 export default function MatchGame() {
   const params = useParams();
@@ -151,7 +152,22 @@ export default function MatchGame() {
 
   return (
     <Box display="flex">
-
+      <Head>
+                <script
+                async
+                src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
+                />
+                <script
+                    dangerouslySetInnerHTML={{
+                    __html: `
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}');
+                    `,
+                    }}
+                />
+            </Head>
       {/* Main Content Section */}
       <Box sx={{ flex: 1, mt: '20px' }}>
 

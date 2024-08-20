@@ -6,6 +6,7 @@ import { Container, Typography, Box, Grid, Card, CardActionArea, CardContent, Ci
 import { useRouter } from "next/navigation";
 import { collection, doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase";
+import Head from "next/head";
 
 
 export default function Test() {
@@ -43,6 +44,22 @@ export default function Test() {
 
   return (
     <Box display="flex">
+      <Head>
+                <script
+                async
+                src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
+                />
+                <script
+                    dangerouslySetInnerHTML={{
+                    __html: `
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}');
+                    `,
+                    }}
+                />
+            </Head>
       {/* Main Content Section */}
       <Box p="20px" sx={{ flex: 1 }}>
         <Container sx={{ mt: 2 }}> {/* Adjust the margin-top here if needed */}

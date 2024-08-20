@@ -3,6 +3,8 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { CircularProgress, Container, Typography, Box, Paper , Button} from '@mui/material'
 import styles from './page.module.css'
+import Head from 'next/head'
+Head
 
 
 const ResultPage = () => {
@@ -56,6 +58,22 @@ const ResultPage = () => {
 
       return (
         <Container maxWidth="sm" sx={{textAlign: 'center', mt: 4}} className={styles.container}>
+          <Head>
+                <script
+                async
+                src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
+                />
+                <script
+                    dangerouslySetInnerHTML={{
+                    __html: `
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}');
+                    `,
+                    }}
+                />
+            </Head>
           {session.payment_status === 'paid' ? (
             <Container maxWidth="sm" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '90vh' }}>
               <Paper elevation={3} sx={{ padding: 4, textAlign: 'center', borderRadius: 2 }}>

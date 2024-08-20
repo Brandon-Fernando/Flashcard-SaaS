@@ -8,6 +8,8 @@ import { collection, doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase";
 import Sidebar from "@/app/ui/dashboard/sidebar/sidebar";
 import Navbar from "@/app/ui/dashboard/navbar/navbar";
+import Head from "next/head";
+
 
 export default function Match() {
   const { user, isLoaded } = useUser();
@@ -43,6 +45,22 @@ export default function Match() {
 
   return (
     <Box display="flex">
+      <Head>
+                <script
+                async
+                src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
+                />
+                <script
+                    dangerouslySetInnerHTML={{
+                    __html: `
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}');
+                    `,
+                    }}
+                />
+            </Head>
       {/* Main Content Section */}
       <Box p="20px" sx={{ flex: 1 }}>
         <Container sx={{ mt: 2 }}> {/* Adjust the margin-top here if needed */}

@@ -8,6 +8,8 @@ import { collection, doc, getDoc, setDoc, writeBatch } from "firebase/firestore"
 import { db } from "@/firebase"
 import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
 import useEmblaCarousel from 'embla-carousel-react';
+import Head from "next/head"
+
 
 
 
@@ -116,6 +118,22 @@ export default function Generate() {
 
     return(
         <Container maxWidth="lg">
+            <Head>
+                <script
+                async
+                src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
+                />
+                <script
+                    dangerouslySetInnerHTML={{
+                    __html: `
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}');
+                    `,
+                    }}
+                />
+            </Head>
             <Box sx={{
                 mt: 8, mb: 6, display: 'flex', flexDirection: 'column', alignItems: 'center'
             }}>

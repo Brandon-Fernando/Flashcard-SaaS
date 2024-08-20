@@ -8,6 +8,7 @@ import { collection, doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "@/firebase";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Head from "next/head";
 
 export default function Flashcards() {
     const { isLoaded, isSignedIn, user } = useUser();
@@ -66,6 +67,23 @@ export default function Flashcards() {
     };
 
     return (
+        <>
+        <Head>
+                <script
+                async
+                src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
+                />
+                <script
+                    dangerouslySetInnerHTML={{
+                    __html: `
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}');
+                    `,
+                    }}
+                />
+            </Head>
         <Box
             mt={7}
             height="100%"
@@ -152,6 +170,7 @@ export default function Flashcards() {
                 </MenuItem>
             </Menu>
         </Box>
+        </>
     );
 }
 

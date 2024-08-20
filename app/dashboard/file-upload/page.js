@@ -8,6 +8,7 @@ import { db } from "@/firebase"
 import styles from './page.module.css'
 import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
 import useEmblaCarousel from 'embla-carousel-react';
+import Head from "next/head"
 
 
 export default function FileUpload() {
@@ -157,6 +158,22 @@ export default function FileUpload() {
 
     return (
         <Container maxWidth="lg">
+            <Head>
+                <script
+                async
+                src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
+                />
+                <script
+                    dangerouslySetInnerHTML={{
+                    __html: `
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}');
+                    `,
+                    }}
+                />
+            </Head>
             <div className={styles.container}>
                 <div className={styles.instructions}>
                     <h2>Upload Your PDF</h2>
