@@ -6,8 +6,7 @@ import { Container, Typography, Box, Grid, Card, CardActionArea, CardContent, Ci
 import { useRouter } from "next/navigation";
 import { collection, doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase";
-import Sidebar from "@/app/ui/dashboard/sidebar/sidebar";
-import Navbar from "@/app/ui/dashboard/navbar/navbar";
+
 
 export default function Test() {
   const { user, isLoaded } = useUser();
