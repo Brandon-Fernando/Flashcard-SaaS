@@ -44,8 +44,8 @@ export default function Home() {
           </Typography>
 
           {/* New Link to Games Page - Start */}
-          <Button color="inherit" href="/match">Match</Button>
-          <Button color="inherit" href="/test">Test</Button>
+          <Button color="inherit" href="/dashboard/match">Match</Button>
+          <Button color="inherit" href="/dashboard/test">Test</Button>
           {/* New Link to Games Page - End */}
 
           <SignedOut>
@@ -64,7 +64,7 @@ export default function Home() {
           {' '}
           The easiest way to make flashcards from your text
         </Typography>
-        <Button variant="contained" sx={{mt: 2}} href='/generate'>
+        <Button variant="contained" sx={{mt: 2}} href='/dashboard/generate'>
           Get Started
         </Button>
       </Box>

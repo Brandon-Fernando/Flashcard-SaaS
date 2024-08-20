@@ -9,8 +9,8 @@ import { db } from '@/firebase';
 import { useUser } from '@clerk/nextjs';
 import QuizIcon from '@mui/icons-material/Quiz';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
-import Sidebar from "@/app/ui/dashboard/sidebar/sidebar";
-import Navbar from "@/app/ui/dashboard/navbar/navbar";
+import { useRouter } from 'next/navigation';
+
 
 export default function TestGame() {
   const { id } = useParams();  
@@ -22,6 +22,7 @@ export default function TestGame() {
   const [showResult, setShowResult] = useState(false);
   const [incorrectQuestions, setIncorrectQuestions] = useState([]);
   const [isGameFinished, setIsGameFinished] = useState(false);
+  const router = useRouter();
 
   const getAnsweredCount = () => {
     return Object.keys(selectedAnswers).length;
@@ -118,7 +119,7 @@ export default function TestGame() {
     return (
       <Container maxWidth="lg">
         <Head>
-          <title>Flashcard SaaS - Test Result</title>
+          <title>Cardlet - Test Result</title>
           <meta name="description" content={`Your test result for the ${id} flashcard set`} />
         </Head>
 
@@ -148,9 +149,15 @@ export default function TestGame() {
             </Box>
           )}
 
-          <Button variant="contained" color="primary" sx={{ mt: 4 }} onClick={() => window.location.reload()}>
-            Retake Test
-          </Button>
+          <div sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', mt: 4 }}>
+            <Button variant="contained" color="primary" sx={{ mt: 4, mr: 3 }} onClick={() => window.location.reload()}>
+              Retake Test
+            </Button>
+            <Button variant="contained" color="primary" sx={{ mt: 4 }} onClick={() => router.push('/dashboard/test') }>
+              Choose a New Set
+            </Button>
+          </div>
+
         </Box>
       </Container>
     );
@@ -271,7 +278,7 @@ export default function TestGame() {
                         justifyContent: 'center',
                         paddingLeft: '12px',
                         paddingRight: '12px',
-                        border: `1px solid ${selectedAnswers[index] === option ? '#B5A1E0' : '#000000'}`,
+                        border: `2px solid ${selectedAnswers[index] === option ? 'black' : '#000000'}`,
                         borderRadius: '8px',
                         backgroundColor: selectedAnswers[index] === option ? '#B5A1E0' : '#FFFFFF',                    
                         color: selectedAnswers[index] === option ? '#FFFFFF' : '#000000', 
@@ -283,9 +290,9 @@ export default function TestGame() {
                         textOverflow: 'ellipsis',
                         marginBottom: '0px',
                         '&:hover': {
-                          backgroundColor: selectedAnswers[index] === option ? '#B5A1E0' : '#B5A1E0',
+                          backgroundColor: selectedAnswers[index] === option ? '#9181b3' : '#B5A1E0',
                           color: selectedAnswers[index] === option ? '#FFFFFF' : '#FFFFFF',
-                          borderColor: selectedAnswers[index] === option ? '#FFFFFF' : '#FFFFFF',
+                          borderColor: selectedAnswers[index] === option ? 'black' : 'black',
                         },
                       }}
                       onClick={() => handleAnswerChange(index, { target: { value: option } })}
