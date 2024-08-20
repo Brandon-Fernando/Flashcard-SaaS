@@ -118,7 +118,9 @@ export default function Flashcard() {
                                 }}
                             >
                                 <Card sx={{ width: '100%' }}>
-                                    <CardActionArea onClick={() => handleCardClick(index)}>
+                                    <CardActionArea onClick={() => handleCardClick(index)}
+                                    disableRipple 
+                                    >
                                         <CardContent>
                                             <Box
                                                 sx={{
@@ -132,7 +134,7 @@ export default function Flashcard() {
                                                         border: "2px solid black",
                                                         boxShadow: "-4px 4px 6px rgba(0, 0, 0, 1)",
                                                         borderRadius: 4,
-                                                        transform: flipped[index] ? 'rotateY(180deg)' : 'rotateY(0deg)',
+                                                        transform: flipped[index] ? 'rotateX(180deg)' : 'rotateX(0deg)',
                                                     },
                                                     '& > div > div': {
                                                         position: 'absolute',
@@ -146,7 +148,7 @@ export default function Flashcard() {
                                                         boxSizing: 'border-box',
                                                     },
                                                     '& > div > div:nth-of-type(2)': {
-                                                        transform: 'rotateY(180deg)',
+                                                        transform: 'rotateX(180deg)',
                                                     },
                                                 }}
                                             >
@@ -182,6 +184,7 @@ export default function Flashcard() {
                                 backgroundColor: selectedIndex === index ? '#64558F' : 'grey.500',
                                 mx: 1,
                                 transition: 'background-color 0.3s',
+                                display: 'inline-block',
                             }}
                         />
                     ))}
