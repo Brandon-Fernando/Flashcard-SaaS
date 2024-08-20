@@ -81,18 +81,15 @@ export default function Home() {
 
   return (
     <Container maxWidth={false} disableGutters sx={{ width: '100vw', overflowX: 'hidden' }}>
-      {/* <Head>
-        <title>Flashcard SaaS</title>
-        <meta name="description" content="Create flashcard from your text"/>
-      </Head> */}
-
 
       {/* Navbar */}
       <AppBar position="static" color ='default' sx= {{ width: '100vw', height: 80, paddingTop: 1, paddingBottom: 1, borderRadius: 3, marginBottom: 1, marginTop: 1, boxShadow: 5}}>
+
         <Toolbar>
           <Typography variant = 'h5' sx = {{ flexGrow: 1 }}>
             <Image src = '/assets/cardlet-logo.png' alt = 'Cardlet' width='120' height = '50'/>
           </Typography>
+
           <SignedOut>
             <Button color="inherit" href="/sign-in" sx = {{ paddingInline: 2, borderRadius: 25 }}>Sign In</Button>
             <Button variant = 'contained' href="/sign-up" sx = {{ paddingInline: 2, borderRadius: 25 }}>Register</Button>
@@ -104,7 +101,6 @@ export default function Home() {
 
         </Toolbar>
       </AppBar>
-
 
 
       {/* Cardlet Image  */}
@@ -290,9 +286,5 @@ export default function Home() {
         </Grid>
       </Box> */}
     </Container>
-    
-
-
-    
   )
 }
