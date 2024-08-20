@@ -115,7 +115,7 @@ export default function Generate() {
     }, [emblaApi, onSelect]);
 
     return(
-        <Container maxWidth="md">
+        <Container maxWidth="lg">
             <Box sx={{
                 mt: 8, mb: 6, display: 'flex', flexDirection: 'column', alignItems: 'center'
             }}>
@@ -130,11 +130,14 @@ export default function Generate() {
                     <TextField
                         value={text}
                         onChange={(e) => setText(e.target.value)}
-                        placeholder="Enter your topic here. We'll take care of the rest."
+                        placeholder="Enter your notes here. We'll take care of the rest."
                         fullWidth
                         multiline
                         rows={4}
                         variant="outlined"
+                        inputProps={{
+                            maxLength: 30000
+                        }}
                         sx={{mb: 2, 
                             borderRadius: 3,
                             "& .MuiOutlinedInput-root": {
@@ -152,6 +155,9 @@ export default function Generate() {
                             },
                         }}
                     />
+                    <Typography variant="body2" sx={{mb: 1, display: 'flex', justifyContent: 'flex-end', color: '#595959'}}>
+                        {text.length} / 30,000 characters
+                    </Typography>
                     <Button 
                         variant="contained" onClick={handleSubmit} fullWidth
                         sx={{
