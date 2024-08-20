@@ -9,8 +9,6 @@ import { Container, Box, Typography, Card, CardActionArea, CardContent, IconButt
 import useEmblaCarousel from 'embla-carousel-react';
 import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
 import Image from 'next/image';
-import Sidebar from "../ui/dashboard/sidebar/sidebar";
-import Navbar from "../ui/dashboard/navbar/navbar";
 
 
 export default function Flashcard() {
@@ -75,21 +73,6 @@ export default function Flashcard() {
     return (
         <>
             
-
-            <Box display="flex" flexDirection="row">
-                <Box sx={{ width: '313px'}} > {/* Adjust the width as needed */}
-                <Sidebar activePath="/dashboard/flashcards"/>
-                </Box>
-                <Box p="20px" sx={{ flex: 1 }}> {/* This makes the Navbar expand to fill the remaining space */}
-                <Navbar />
-                </Box>
-            </Box>
-            
-            
-            
-            
-            
-
             {/* carousel */}
             <Box
                 display="flex"
@@ -98,7 +81,7 @@ export default function Flashcard() {
             
             
             {/* <Typography variant="h5" >Currently Viewing: {search}</Typography> */}
-            <Box sx={{ ml: "313px", mt: 2, position: 'relative' }}>
+            <Box sx={{ mt: 2, position: 'relative' }}>
                 <Box ref={emblaRef} sx={{ overflow: 'hidden', width: '100%' }}>
                     <Box
                         sx={{
@@ -195,15 +178,16 @@ export default function Flashcard() {
                         <BsArrowLeftCircle fontSize={50} color="black" />
                     </IconButton>
                     <IconButton onClick={scrollNext}>
-                    <BsArrowRightCircle fontSize={50} color="black" />
+                        <BsArrowRightCircle fontSize={50} color="black" />
                     </IconButton>
                 </Box>
             </Box>
 
-            <Box mt={10} ml="350px">
-                <Typography variant="h5" fontWeight='bold'>
+            <Typography variant="h5" fontWeight='bold' mt={4}>
                     Terms In This Set ( {flashcards.length} )
-                </Typography>
+            </Typography>
+            <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                
                 
                 <Stack mt={3}>
                 {flashcards.map((flashcard, index) => (
@@ -215,7 +199,7 @@ export default function Flashcard() {
                                 {flashcard.front}
                             </Typography>
                         </Box>
-                        <Box border="2px solid black" width="30%"display="flex" justifyContent="center" alignItems="center" mb={3} p={6} borderRadius={2}
+                        <Box border="2px solid black" width="35%"display="flex" justifyContent="center" alignItems="center" mb={3} p={6} borderRadius={2}
                         sx={{border: "2px solid black",
                         boxShadow: "-4px 4px 6px rgba(0, 0, 0, 1)"}}>
                             <Typography variant="h6">
