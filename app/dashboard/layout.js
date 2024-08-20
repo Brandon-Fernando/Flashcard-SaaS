@@ -8,7 +8,6 @@ export default function Layout({children}) {
     const [menuOpen, setMenuOpen] = useState(false)
 
     const handleMenu = () => {
-        console.log("clicked")
         setMenuOpen(!menuOpen)
     }
 
