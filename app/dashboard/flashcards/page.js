@@ -273,7 +273,7 @@ export default function Flashcards() {
     }
 
     const handleCardClick = (id) => {
-        router.push(`/flashcard?id=${id}`);
+        router.push(`/dashboard/flashcard?id=${id}`);
     };
 
     const handleMenuClick = (event, id) => {
