@@ -11,7 +11,7 @@ export default function Navbar({handleMenu}) {
 
     return (
         <div className={styles.container}>
-            <div className={styles.title}>{pathname.split("/").pop()}</div>
+            <div className={styles.title}>{pathname.split("/").pop().replace(/-/g, ' ')}</div>
             <div className={styles.menu}>
                 <SignedOut>
                     <Button color="inherit" href="/sign-in">Login</Button>

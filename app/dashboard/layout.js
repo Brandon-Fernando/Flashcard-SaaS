@@ -8,13 +8,14 @@ export default function Layout({children}) {
     const [menuOpen, setMenuOpen] = useState(false)
 
     const handleMenu = () => {
+        console.log("clicked")
         setMenuOpen(!menuOpen)
     }
 
     return (
         <div className={styles.container}>
             <div className={styles.menu}>
-                <Sidebar isOpened={menuOpen} />
+                <Sidebar isOpened={menuOpen} handleMenu={handleMenu} />
             </div>
 
             <div className={styles.content}>

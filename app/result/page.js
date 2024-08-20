@@ -1,7 +1,8 @@
 'use client'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { CircularProgress, Container, Typography, Box } from '@mui/material'
+import { CircularProgress, Container, Typography, Box, Paper , Button} from '@mui/material'
+import styles from './page.module.css'
 
 
 const ResultPage = () => {
@@ -54,27 +55,30 @@ const ResultPage = () => {
       }
 
       return (
-        <Container maxWidth="sm" sx={{textAlign: 'center', mt: 4}}>
+        <Container maxWidth="sm" sx={{textAlign: 'center', mt: 4}} className={styles.container}>
           {session.payment_status === 'paid' ? (
-            <>
-              <Typography variant="h4">Thank you for your purchase!</Typography>
-              <Box sx={{mt: 2}}>
-                <Typography variant="h6">Session ID: {session_id}</Typography>
-                <Typography variant="body1">
-                  We have received your payment. You will receive an email with the
-                  order details shortly.
+            <Container maxWidth="sm" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '90vh' }}>
+              <Paper elevation={3} sx={{ padding: 4, textAlign: 'center', borderRadius: 2 }}>
+                <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+                  Thank you for your purchase!
                 </Typography>
-              </Box>
-            </>
+                <Typography variant="h6" gutterBottom sx={{ color: 'text.secondary' }}>
+                  Session ID: <span style={{ fontWeight: 'bold' }}>{session_id}</span>
+                </Typography>
+                <Box sx={{ mt: 2 }}>
+                  <Typography variant="body1" sx={{ color: 'text.primary' }}>
+                    We have received your payment. You will receive an email with the order details shortly.
+                  </Typography>
+                </Box>
+                <Box sx={{ mt: 2 }}>
+                  <Button variant="contained" color="primary" onClick={() => router.push('/')}>
+                    Back to Home
+                  </Button>
+                </Box>
+              </Paper>
+            </Container>
           ) : (
-            <>
-              <Typography variant="h4">Payment failed</Typography>
-              <Box sx={{mt: 2}}>
-                <Typography variant="body1">
-                  Your payment was not successful. Please try again.
-                </Typography>
-              </Box>
-            </>
+            router.push(`/`)
           )}
         </Container>
       )

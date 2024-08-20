@@ -5,10 +5,12 @@ import { useUser } from "@clerk/nextjs"
 import { useRouter } from "next/navigation"
 import { collection, doc, getDoc, setDoc, writeBatch } from "firebase/firestore"
 import { db } from "@/firebase"
+import styles from './page.module.css'
 
 
 export default function FileUpload() {
     const [file, setFile] = useState(null)
+    const [fileName, setFileName] = useState('')
     const [text, setText] = useState('')
     const [flashcards, setFlashcards] = useState([])
     const [flipped, setFlipped] = useState([])
@@ -25,9 +27,15 @@ export default function FileUpload() {
         }))
     }
 
-    const handleFileChange = (e) => {
-        setFile(e.target.files[0])
-    }
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        setFile(file)
+        if (file) {
+            setFileName(file.name);
+        } else {
+            setFileName('');
+        }
+    };
     
     const handleUpload = () => {
         if (file) {
@@ -122,8 +130,32 @@ export default function FileUpload() {
 
     return (
         <div>
-            <input type="file" id="file" name="file" accept=".pdf" onChange={handleFileChange} />
-            <button onClick={handleUpload}>Upload</button>
+            <div className={styles.container}>
+                <div className={styles.instructions}>
+                    <h2>Upload Your PDF</h2>
+                    <p>Click here to select a file and transform it into your personalized set of study flashcards.</p>
+                </div>
+                <label htmlFor="file" className={styles.customFileInput}>
+                    <span className={styles.uploadIcon}>📁</span> Choose File
+                    <input 
+                        type="file" 
+                        id="file" 
+                        name="file" 
+                        accept=".pdf" 
+                        onChange={handleFileChange} 
+                        className={styles.fileInput} 
+                    />
+                </label>
+                {fileName && (
+                    <div className={styles.fileName}>
+                        <p>Selected File:</p>
+                        <strong>{fileName}</strong>
+                    </div>
+                )}
+                <button onClick={handleUpload} className={styles.uploadButton}>
+                    Upload
+                </button>
+            </div>
 
             {loading && (
                 <Box sx={{mt: 4, display: 'flex', justifyContent: 'center'}}>
