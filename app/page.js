@@ -54,6 +54,29 @@ export default function Home() {
     }
   }
 
+  const handleFreeTrialSubmit = async () => {
+    const checkoutSession = await fetch('/api/checkout_session', {
+      method: 'POST', 
+      headers: {origin: 'http://localhost:3000'},
+      body: JSON.stringify({planType: 'free-trial'}),
+    })
+    const checkoutSessionJson = await checkoutSession.json()
+
+    if(checkoutSession.statusCode === 500){
+      console.error(checkoutSession.message)
+      return
+    }
+
+    const stripe = await getStripe()
+    const {error} = await stripe.redirectToCheckout({
+      sessionId: checkoutSessionJson.id,
+    })
+
+    if (error) {
+      console.warn(error.message)
+    }
+  }
+
   return (
     <Container maxWidth="lg">
       <Head>
@@ -128,21 +151,21 @@ export default function Home() {
       <Box sx={{my: 6, textAlign: 'center'}}>
         <Typography variant="h4" component="h2" gutterBottom>Pricing</Typography>
         <Grid container spacing={4} justifyContent="center">
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
               <Box sx={{p: 3, border: '1px solid', borderColor: 'grey.300', borderRadius: 2}}>
-              <Typography variant="h5" gutterBottom>Basic</Typography>
-              <Typography variant="h6">$5 / month</Typography>
+              <Typography variant="h5" gutterBottom>Free Trial</Typography>
+              <Typography variant="h6">First Week Free, Then $10/month</Typography>
               <Typography>
                 {' '}
                 Access to basic flashcard features and limited storage.
               </Typography>
-              <Button variant = "contained" color="primary">
-                Choose Basic
+              <Button variant = "contained" color="primary" onClick={handleFreeTrialSubmit}>
+                Start Free Trial
               </Button>
               </Box>
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
               <Box sx={{p: 3, border: '1px solid', borderColor: 'grey.300', borderRadius: 2}}>
               <Typography variant="h5" gutterBottom>Pro</Typography>
               <Typography variant="h6">$10 / month</Typography>

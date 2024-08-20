@@ -1,19 +1,32 @@
 'use client';
 
-import { useUser } from "@clerk/nextjs";
+import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/nextjs";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { collection, doc, getDocs } from "firebase/firestore";
 import { db } from "@/firebase";
-import { Container, Grid, Box, Typography, Card, CardActionArea, CardContent } from "@mui/material";
+import { Container, Box, Typography, Card, CardActionArea, CardContent, IconButton, AppBar, Toolbar, Stack } from "@mui/material";
+import useEmblaCarousel from 'embla-carousel-react';
+import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
+import Image from 'next/image';
+import Sidebar from "../ui/dashboard/sidebar/sidebar";
+import Navbar from "../ui/dashboard/navbar/navbar";
+
 
 export default function Flashcard() {
     const { isLoaded, isSignedIn, user } = useUser();
     const [flashcards, setFlashcards] = useState([]);
     const [flipped, setFlipped] = useState({});
-
+    const [selectedIndex, setSelectedIndex] = useState(0);
     const searchParams = useSearchParams();
     const search = searchParams.get('id');
+
+    const [emblaRef, emblaApi] = useEmblaCarousel({
+        axis: 'x',
+        loop: true,
+        containScroll: 'trimSnaps',
+        watchDrag: false,
+    });
 
     useEffect(() => {
         async function getFlashcard() {
@@ -37,66 +50,184 @@ export default function Flashcard() {
         }));
     };
 
+    const scrollPrev = useCallback(() => {
+        if (emblaApi) emblaApi.scrollPrev();
+    }, [emblaApi]);
+
+    const scrollNext = useCallback(() => {
+        if (emblaApi) emblaApi.scrollNext();
+    }, [emblaApi]);
+
+    const onSelect = useCallback(() => {
+        if (!emblaApi) return;
+        setSelectedIndex(emblaApi.selectedScrollSnap());
+    }, [emblaApi]);
+
+    useEffect(() => {
+        if (!emblaApi) return;
+        emblaApi.on('select', onSelect);
+    }, [emblaApi, onSelect]);
+
     if (!isLoaded || !isSignedIn) {
         return <></>;
     }
 
     return (
-        <Container maxWidth="md">
-            <Typography variant="h5" sx={{ mt: 4 }}>Flashcards Preview</Typography>
-            <Grid container spacing={3} sx={{ mt: 2 }}>
-                {flashcards.map((flashcard, index) => (
-                    <Grid item xs={12} sm={6} md={4} key={index}>
-                        <Card>
-                            <CardActionArea onClick={() => handleCardClick(index)}>
-                                <CardContent>
-                                    <Box
-                                        sx={{
-                                            perspective: '1000px',
-                                            '& > div': {
-                                                transition: 'transform 0.6s',
-                                                transformStyle: 'preserve-3d',
-                                                position: 'relative',
-                                                width: '100%',
-                                                height: '200px',
-                                                boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
-                                                transform: flipped[index] ? 'rotateY(180deg)' : 'rotateY(0deg)',
-                                            },
-                                            '& > div > div': {
-                                                position: 'absolute',
-                                                width: '100%',
-                                                height: '100%',
-                                                backfaceVisibility: 'hidden',
-                                                display: 'flex',
-                                                justifyContent: 'center',
-                                                alignItems: 'center',
-                                                padding: 2,
-                                                boxSizing: 'border-box',
-                                            },
-                                            '& > div > div:nth-of-type(2)': {
-                                                transform: 'rotateY(180deg)',
-                                            },
-                                        }}
+        <>
+            
+
+            <Box display="flex" flexDirection="row">
+                <Box sx={{ width: '313px'}} > {/* Adjust the width as needed */}
+                <Sidebar activePath="/dashboard/flashcards"/>
+                </Box>
+                <Box p="20px" sx={{ flex: 1 }}> {/* This makes the Navbar expand to fill the remaining space */}
+                <Navbar />
+                </Box>
+            </Box>
+            
+            
+            
+            
+            
+
+            {/* carousel */}
+            <Box
+                display="flex"
+                flexDirection="column"
+                width="100%">
+            
+            
+            {/* <Typography variant="h5" >Currently Viewing: {search}</Typography> */}
+            <Box sx={{ ml: "313px", mt: 2, position: 'relative' }}>
+                <Box ref={emblaRef} sx={{ overflow: 'hidden', width: '100%' }}>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            gap: '10px',
+                        }}
+                    >
+                        {flashcards.map((flashcard, index) => (
+                            <Box
+                                key={index}
+                                sx={{
+                                    flex: '0 0 100%',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    boxSizing: 'border-box',
+                                }}
+                            >
+                                <Card sx={{ width: '100%' }}>
+                                    <CardActionArea onClick={() => handleCardClick(index)}
+                                    disableRipple 
                                     >
-                                        <div>
-                                            <div>
-                                                <Typography variant="h5" component="div">
-                                                    {flashcard.front}
-                                                </Typography>
-                                            </div>
-                                            <div>
-                                                <Typography variant="h5" component="div">
-                                                    {flashcard.back}
-                                                </Typography>
-                                            </div>
-                                        </div>
-                                    </Box>
-                                </CardContent>
-                            </CardActionArea>
-                        </Card>
-                    </Grid>
+                                        <CardContent>
+                                            <Box
+                                                sx={{
+                                                    perspective: '1000px',
+                                                    '& > div': {
+                                                        transition: 'transform 0.6s',
+                                                        transformStyle: 'preserve-3d',
+                                                        position: 'relative',
+                                                        width: '100%',
+                                                        height: '400px',
+                                                        border: "2px solid black",
+                                                        boxShadow: "-4px 4px 6px rgba(0, 0, 0, 1)",
+                                                        borderRadius: 4,
+                                                        transform: flipped[index] ? 'rotateX(180deg)' : 'rotateX(0deg)',
+                                                    },
+                                                    '& > div > div': {
+                                                        position: 'absolute',
+                                                        width: '100%',
+                                                        height: '100%',
+                                                        backfaceVisibility: 'hidden',
+                                                        display: 'flex',
+                                                        justifyContent: 'center',
+                                                        alignItems: 'center',
+                                                        padding: 2,
+                                                        boxSizing: 'border-box',
+                                                    },
+                                                    '& > div > div:nth-of-type(2)': {
+                                                        transform: 'rotateX(180deg)',
+                                                    },
+                                                }}
+                                            >
+                                                <div>
+                                                    <div>
+                                                        <Typography variant="h5" component="div" fontWeight='bold'>
+                                                            {flashcard.front}
+                                                        </Typography>
+                                                    </div>
+                                                    <div>
+                                                        <Typography variant="h5" component="div" fontWeight='bold'>
+                                                            {flashcard.back}
+                                                        </Typography>
+                                                    </div>
+                                                </div>
+                                            </Box>
+                                        </CardContent>
+                                    </CardActionArea>
+                                </Card>
+                            </Box>
+                        ))}
+                    </Box>
+                </Box>
+
+                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+                    {flashcards.map((_, index) => (
+                        <Box
+                            key={index}
+                            sx={{
+                                width: 10,
+                                height: 10,
+                                borderRadius: '50%',
+                                backgroundColor: selectedIndex === index ? '#64558F' : 'grey.500',
+                                mx: 1,
+                                transition: 'background-color 0.3s',
+                                display: 'inline-block',
+                            }}
+                        />
+                    ))}
+                </Box>
+
+                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+                    <IconButton onClick={scrollPrev}>
+                        <BsArrowLeftCircle fontSize={50} color="black" />
+                    </IconButton>
+                    <IconButton onClick={scrollNext}>
+                    <BsArrowRightCircle fontSize={50} color="black" />
+                    </IconButton>
+                </Box>
+            </Box>
+
+            <Box mt={10} ml="350px">
+                <Typography variant="h5" fontWeight='bold'>
+                    Terms In This Set ( {flashcards.length} )
+                </Typography>
+                
+                <Stack mt={3}>
+                {flashcards.map((flashcard, index) => (
+                    <Box display="flex" flexDirection="row" key={index}>
+                        <Box border="2px solid black" width="65%" display="flex" justifyContent="center" alignItems="center" mb={3} p={6} borderRadius={2} mr={1}
+                        sx={{border: "2px solid black",
+                        boxShadow: "-4px 4px 6px rgba(0, 0, 0, 1)"}}>
+                            <Typography variant="h6">
+                                {flashcard.front}
+                            </Typography>
+                        </Box>
+                        <Box border="2px solid black" width="30%"display="flex" justifyContent="center" alignItems="center" mb={3} p={6} borderRadius={2}
+                        sx={{border: "2px solid black",
+                        boxShadow: "-4px 4px 6px rgba(0, 0, 0, 1)"}}>
+                            <Typography variant="h6">
+                                {flashcard.back}
+                            </Typography>
+                        </Box>
+                    </Box>
                 ))}
-            </Grid>
-        </Container>
+                </Stack>
+            </Box>
+            </Box>
+            
+        </>
     );
 }
