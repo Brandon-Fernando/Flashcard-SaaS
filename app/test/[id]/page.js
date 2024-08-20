@@ -285,8 +285,9 @@ export default function TestGame() {
                         height: '130px',  
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'flex-start',
+                        justifyContent: 'center',
                         paddingLeft: '12px',
+                        paddingRight: '12px',
                         border: `1px solid ${selectedAnswers[index] === option ? '#B5A1E0' : '#000000'}`,
                         borderRadius: '8px',
                         backgroundColor: selectedAnswers[index] === option ? '#B5A1E0' : '#FFFFFF',                    
@@ -311,7 +312,10 @@ export default function TestGame() {
                         sx={{
                           whiteSpace: 'normal',
                           overflowWrap: 'break-word',
+                          textAlign: 'left',
                           fontWeight: 'bold',
+                          width: '100%',
+                          padding: '12px',
                         }}
                       >
                         {truncateText(option, 20)}
