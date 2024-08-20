@@ -44,12 +44,12 @@ const menuItems = [
       list: [
           {
             title: "Matching",
-            path: "/match", // change path
+            path: "/dashboard/match", // change path
             icon: <GiCardPick />
           },
           {
             title: "Practice Test",
-            path: "/test", // change path
+            path: "/dashboard/test",
             icon: <LuFileEdit />
           },
           {

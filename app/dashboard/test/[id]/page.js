@@ -95,6 +95,11 @@ export default function TestGame() {
       }
     }, 0);
 
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',  // Optional: This enables smooth scrolling
+    });
+
     setScore(calculatedScore);
     setIncorrectQuestions(incorrect);
     setShowResult(true);
@@ -136,7 +141,7 @@ export default function TestGame() {
               {incorrectQuestions.map((item, idx) => (
                 <Box key={idx} sx={{ mb: 2 }}>
                   <Typography variant="body1"><strong>Question:</strong> {item.question}</Typography>
-                  <Typography variant="body1" color="error"><strong>Your Answer:</strong> {item.selectedAnswer}</Typography>
+                  <Typography variant="body1" color="grey"><strong>Your Answer:</strong> {item.selectedAnswer}</Typography>
                   <Typography variant="body1" color="primary"><strong>Correct Answer:</strong> {item.correctAnswer}</Typography>
                 </Box>
               ))}
@@ -153,15 +158,10 @@ export default function TestGame() {
 
   return (
     <Box display="flex">
-      {/* Sidebar Section */}
-      <Box sx={{ width: '313px', position: 'fixed', left: 0, top: 0, bottom: 0, ml: '-11px' }}>
-        <Sidebar activePath="/test" />
-      </Box>
 
       {/* Main Content Section */}
-      <Box sx={{ flex: 1, ml: '313px', mt: '20px' }}>
-        <Navbar />
-        
+      <Box sx={{ flex: 1, mt: '20px' }}>
+
         {/* Buttons Under Navbar */}
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2, px: 3 }}>
           {/* Back Button */}
@@ -181,7 +181,7 @@ export default function TestGame() {
                 color: '#fff',
               },
             }}
-            onClick={() => window.location.href = '/test'}
+            onClick={() => window.location.href = '/dashboard/test'}
           >
             <ArrowLeftIcon sx={{ mr: 0.5 }} />
             <Typography variant="body1" sx={{ fontWeight: 'bold' }}>Back</Typography>
@@ -210,30 +210,7 @@ export default function TestGame() {
             </Typography>
           </Box>
 
-          {/* Submit Button */}
-          {getAnsweredCount() === questions.length && (
-            <Button
-              variant="contained"
-              color="primary"
-              sx={{
-                backgroundColor: '#fff',
-                borderRadius: '25px',
-                padding: '5px 15px',
-                color: '#000',
-                fontWeight: 'bold',
-                border: '2px solid #000',
-                transition:'background-color 0.3s, color 0.3s',
-                '&:hover': {
-                  backgroundColor: '#000',
-                  color: '#fff',
-                  borderColor: '#000',
-                },
-              }}
-              onClick={handleSubmitAnswers}
-            >
-              Submit
-            </Button>
-          )}
+          
         </Box>
 
         <Container maxWidth="lg">
@@ -245,22 +222,28 @@ export default function TestGame() {
           {/* Test Game Content */}
           <Box 
             sx={{
-              mt: '100px'  
+              mt: '60px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
             {questions.map((question, index) => (
               <Box 
                 key={index} 
                 sx={{ 
-                  mb: 13, 
+                  mb: 8, 
                   p: 3, 
                   backgroundColor: '#FFFFFF',  
                   borderRadius: '8px',
                   boxShadow: selectedAnswers[index] ? '0px 4px 12px rgba(181, 161, 224, 2)' : '0px 4px 12px rgba(0, 0, 0, 0.3)', 
                   width: '90%',
                   minHeight: '480px',
-                  marginLeft: '45px',
-                  mt: '-50px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               >
                 <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
@@ -270,11 +253,11 @@ export default function TestGame() {
                 <Box
                   sx={{
                     display: 'flex', 
-                    flexDirection: 'row', 
+                    flexDirection: { xs: 'column', md: 'row' }, 
                     flexWrap: 'wrap',
                     justifyContent: 'space-between',  // Space between each option
                     gap: '16px',  // Gap between buttons
-                    marginTop: '90px',
+                    marginTop: '40px',
                   }}
                 >
                   {question.options.map((option, i) => (
@@ -325,6 +308,34 @@ export default function TestGame() {
                 </Box>
               </Box>
             ))}
+
+            {/* Submit Button */}
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              {getAnsweredCount() === questions.length && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  sx={{
+                    backgroundColor: '#fff',
+                    borderRadius: '25px',
+                    padding: '5px 15px',
+                    color: '#000',
+                    fontWeight: 'bold',
+                    border: '2px solid #000',
+                    transition:'background-color 0.3s, color 0.3s',
+                    '&:hover': {
+                      backgroundColor: '#000',
+                      color: '#fff',
+                      borderColor: '#000',
+                    },
+                  }}
+                  onClick={handleSubmitAnswers}
+                >
+                  Submit
+                </Button>
+              )}
+            </div>
+
           </Box>
         </Container>
       </Box>

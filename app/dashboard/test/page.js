@@ -9,7 +9,7 @@ import { db } from "@/firebase";
 import Sidebar from "@/app/ui/dashboard/sidebar/sidebar";
 import Navbar from "@/app/ui/dashboard/navbar/navbar";
 
-export default function Match() {
+export default function Test() {
   const { user, isLoaded } = useUser();
   const [flashcardSets, setFlashcardSets] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -30,7 +30,8 @@ export default function Match() {
   }, [user, isLoaded]);
 
   const handleSelectSet = (setName) => {
-    router.push(`/match/${setName}`);
+    // Navigate to the test game with the selected flashcard set
+    router.push(`/dashboard/test/${setName}`);
   };
 
   if (loading) {
@@ -43,13 +44,8 @@ export default function Match() {
 
   return (
     <Box display="flex">
-      {/* Sidebar Section */}
-      <Box sx={{ width: '313px' }}>
-        <Sidebar activePath="/match" />
-      </Box>
       {/* Main Content Section */}
       <Box p="20px" sx={{ flex: 1 }}>
-        <Navbar />
         <Container sx={{ mt: 2 }}> {/* Adjust the margin-top here if needed */}
           <Box 
             sx={{
@@ -62,7 +58,7 @@ export default function Match() {
             }}>
             
             <Typography variant="h5" gutterBottom sx={{ ml: '-70px', mt:'40px' }}>
-              Select a Flashcard Set to Start the Match Game
+              Select a Flashcard Set to Start the Test Game
             </Typography>
 
             <Grid container spacing={2} justifyContent="center" sx={{ mt: 4 }}> {/* Add margin-top to the Grid */}

@@ -9,7 +9,7 @@ import { db } from "@/firebase";
 import Sidebar from "@/app/ui/dashboard/sidebar/sidebar";
 import Navbar from "@/app/ui/dashboard/navbar/navbar";
 
-export default function Test() {
+export default function Match() {
   const { user, isLoaded } = useUser();
   const [flashcardSets, setFlashcardSets] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -30,8 +30,7 @@ export default function Test() {
   }, [user, isLoaded]);
 
   const handleSelectSet = (setName) => {
-    // Navigate to the test game with the selected flashcard set
-    router.push(`/test/${setName}`);
+    router.push(`/dashboard/match/${setName}`);
   };
 
   if (loading) {
@@ -44,13 +43,8 @@ export default function Test() {
 
   return (
     <Box display="flex">
-      {/* Sidebar Section */}
-      <Box sx={{ width: '313px' }}>
-        <Sidebar activePath="/test" />
-      </Box>
       {/* Main Content Section */}
       <Box p="20px" sx={{ flex: 1 }}>
-        <Navbar />
         <Container sx={{ mt: 2 }}> {/* Adjust the margin-top here if needed */}
           <Box 
             sx={{
@@ -62,11 +56,11 @@ export default function Test() {
               justifyContent: 'center',
             }}>
             
-            <Typography variant="h5" gutterBottom sx={{ ml: '-70px', mt:'40px' }}>
-              Select a Flashcard Set to Start the Test Game
+            <Typography variant="h5" gutterBottom sx={{ mt:'40px' }}>
+              Select a Flashcard Set to Start the Match Game
             </Typography>
 
-            <Grid container spacing={2} justifyContent="center" sx={{ mt: 4 }}> {/* Add margin-top to the Grid */}
+            <Grid container spacing={2} display="flex" justifyContent="center" alignItems="center" sx={{ mt: 4 }}> {/* Add margin-top to the Grid */}
               {flashcardSets.length === 0 ? (
                 <Typography variant="h6">No flashcard sets found. Please create some first.</Typography>
               ) : (

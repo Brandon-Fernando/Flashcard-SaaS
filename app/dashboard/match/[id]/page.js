@@ -9,8 +9,7 @@ import { useUser } from '@clerk/nextjs';
 import { Global } from '@emotion/react';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
-import Sidebar from "@/app/ui/dashboard/sidebar/sidebar";
-import Navbar from "@/app/ui/dashboard/navbar/navbar";
+import { useRouter } from 'next/navigation';
 
 export default function MatchGame() {
   const params = useParams();
@@ -22,6 +21,7 @@ export default function MatchGame() {
   const [matches, setMatches] = useState([]);
   const [timer, setTimer] = useState(0);
   const [isGameFinished, setIsGameFinished] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     if (isLoaded && id) {
@@ -120,6 +120,7 @@ export default function MatchGame() {
 
         if (matches.length + 1 === flashcards.length) {
           setIsGameFinished(true); // End game when all matches are made
+          router.push(`/dashboard/match`);
         }
       } else {
         // Incorrect match - trigger shake and red background
@@ -150,14 +151,9 @@ export default function MatchGame() {
 
   return (
     <Box display="flex">
-      {/* Sidebar Section */}
-      <Box sx={{ width: '313px', position: 'fixed', left: 0, top: 0, bottom: 0, ml: '-11px' }}>
-        <Sidebar activePath="/match" />
-      </Box>
 
       {/* Main Content Section */}
-      <Box sx={{ flex: 1, ml: '313px', mt: '20px' }}>
-        <Navbar />
+      <Box sx={{ flex: 1, mt: '20px' }}>
 
         {/* Buttons Under Navbar */}
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2, px: 3 }}>
@@ -178,7 +174,7 @@ export default function MatchGame() {
                 color: '#fff',
               },
             }}
-            onClick={() => window.location.href = '/match'}
+            onClick={() => window.location.href = '/dashboard/match'}
           >
             <ArrowLeftIcon sx={{ mr: 0.5 }} />
             <Typography variant="body1" sx={{ fontWeight: 'bold' }}>Back</Typography>
