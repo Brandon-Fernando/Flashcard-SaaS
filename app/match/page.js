@@ -44,11 +44,11 @@ export default function Match() {
   return (
     <Box display="flex">
       {/* Sidebar Section */}
-      <Box sx={{ width: '313px', position: 'fixed', left: 0, top: 0, bottom: 0, ml: '-11px' }}>
+      <Box sx={{ width: '313px' }}>
         <Sidebar activePath="/match" />
       </Box>
       {/* Main Content Section */}
-      <Box sx={{ flex: 1, ml: '313px', mt: '20px' }}>
+      <Box p="20px" sx={{ flex: 1 }}>
         <Navbar />
         <Container sx={{ mt: 2 }}> {/* Adjust the margin-top here if needed */}
           <Box 
