@@ -1,11 +1,13 @@
 'use client'
 
 import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/nextjs";
-import { AppBar, Box, Button, Container, Grid, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Button, Container, Grid, Toolbar, Typography, Paper } from "@mui/material";
 import Head from "next/head";
 import Image from "next/image";
 import getStripe from "@/utils/get-stripe";
 import { useRouter } from 'next/navigation';
+import background from '/public/assets/background.png';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 
 export default function Home() {
@@ -78,77 +80,184 @@ export default function Home() {
   }
 
   return (
-    <Container maxWidth="lg">
-      <Head>
+    <Container maxWidth={false} disableGutters sx={{ minWidth: '100vw', overflowX: 'hidden' }}>
+      {/* <Head>
         <title>Flashcard SaaS</title>
         <meta name="description" content="Create flashcard from your text"/>
-      </Head>
+      </Head> */}
 
 
-      <AppBar position="static">
+      {/* Navbar */}
+      <AppBar position="static" color ='default' minWidth = '100vw' sx= {{ width: '100vw', height: 80, paddingTop: 1, paddingBottom: 1, borderRadius: 3, marginBottom: 1, marginTop: 1, boxShadow: 5}}>
         <Toolbar>
-          <Typography variant="h6" style={{flexGrow: 1}}>
-            Flashcard SaaS
+          <Typography variant = 'h5' sx = {{ flexGrow: 1 }}>
+            <Image src = '/assets/cardlet-logo.png' alt = 'Cardlet' width='120' height = '50'/>
           </Typography>
-
           <SignedOut>
-            <Button color="inherit" href="/sign-in">Login</Button>
-            <Button color="inherit" href="/sign-up">Sign Up</Button>
+            <Button color="inherit" href="/sign-in" sx = {{ paddingInline: 2, borderRadius: 25 }}>Sign In</Button>
+            <Button variant = 'contained' href="/sign-up" sx = {{ paddingInline: 2, borderRadius: 25 }}>Register</Button>
           </SignedOut>
+
           <SignedIn>
             <UserButton />
           </SignedIn>
+
         </Toolbar>
-      
       </AppBar>
 
-      <Box sx={{textAlign: 'center', my: 4 }}> 
-        <Typography variant="h2">Welcome to Flashcard SaaS</Typography>
-        <Typography variant="h5">
-          {' '}
-          The easiest way to make flashcards from your text
-        </Typography>
-        <Button variant="contained" sx={{mt: 2}} onClick={handleDashboard}>
-          Get Started
-        </Button>
-        <Button variant="contained" sx={{mt: 2, ml: 2}} onClick={handleFileUpload}>
-          Get Started (File Upload)
-        </Button>
+
+
+      {/* Cardlet Image  */}
+
+      <Box
+        sx={{
+          position: 'relative',
+          color: 'black',
+          textAlign: 'center',
+          alignContent: 'center',
+          py: 8,
+          paddingBottom: 12,
+          width: '100vw',
+          height: '75vh'
+        }}
+      >
+        <Image fill src = '/assets/background.png' alt ='Background' style = {{objectFit: 'cover'}}/>
+          <Box sx = {{position: 'relative', justifyContent: 'center', textAlign: 'center'}}>
+            <Typography variant="h1" gutterBottom fontWeight={'bold'}>
+              Cardlet
+            </Typography>
+            <Typography variant="h4" fontWeight={'semibold'}>
+              Your all-in-one tool to make study flashcards
+            </Typography>
+          </Box>
       </Box>
 
+
+      {/* Features */}
+
       <Box sx={{my: 6}}>
-        <Typography variant="h4" component="h2" gutterBottom>Features</Typography>
-          <Grid container spacing={4}>
+        <Typography variant="h5" component="h2" gutterBottom fontWeight={'bold'} sx = {{p: 2, paddingLeft: 4}}>Features</Typography>
+          <Grid container rows={{ md: 3}} sx = {{p: 2, textAlign: 'left', alignContent: 'center'}} spacing={{ xs: 2, md: 3 }}>
             <Grid item xs={12} md={4}>
-              <Typography variant="h6">Easy Text Input</Typography>
-              <Typography>
-                {' '}
-                Simply input your text and let our software do the rest. Creating 
-                flashcards has never been easier. 
-              </Typography>
+                <Box sx = {{ display: 'flex', flexDirection: {sm: 'row'}, width: 325}}>
+                  <Box sx = {{flex: 0.05, pt: 0.6, paddingRight: 3 }}>
+                  <InfoOutlinedIcon> </InfoOutlinedIcon>
+                  </Box>
+                  <Box>
+                  <Typography variant="h6" fontWeight={'bold'}>Easy Text Input</Typography>
+                    <Typography>
+                      {' '}
+                      Simply input your text and let our software do the rest. Creating 
+                      flashcards has never been easier. 
+                    </Typography>
+                  </Box>
+                </Box>
             </Grid>
 
             <Grid item xs={12} md={4}>
-              <Typography variant="h6">Smart Flashcards</Typography>
-              <Typography>
-                {' '}
-                Our AI intelligently breaks down your text into concise flashcards, 
-                perfect for studying.
-              </Typography>
+                <Box sx = {{ display: 'flex', flexDirection: {sm: 'row'}, width: 325}}>
+                  <Box sx = {{flex: 0.05, pt: 0.6, paddingRight: 3 }}>
+                  <InfoOutlinedIcon> </InfoOutlinedIcon>
+                  </Box>
+                  <Box>
+                  <Typography variant="h6" fontWeight={'bold'}>Smart Flashcards</Typography>
+                    <Typography>
+                      {' '}
+                      Our AI intelligently breaks down your text into concise flashcards, 
+                      perfect for studying.
+                    </Typography>
+                  </Box>
+                </Box>
             </Grid>
 
             <Grid item xs={12} md={4}>
-              <Typography variant="h6">Accessible Anywhere</Typography>
-              <Typography>
-                {' '}
-                Access your flashcards from any device, at anytime. Study on the 
-                go with ease. 
-              </Typography>
+                <Box sx = {{ display: 'flex', flexDirection: {sm: 'row'}, width: 325}}>
+                  <Box sx = {{flex: 0.05, pt: 0.6, paddingRight: 3 }}>
+                  <InfoOutlinedIcon> </InfoOutlinedIcon>
+                  </Box>
+                  <Box>
+                  <Typography variant="h6" fontWeight={'bold'}>Anywhere, Anytime</Typography>
+                    <Typography>
+                      {' '}
+                      Access your flashcards from any device, at anytime. Study on the 
+                      go with ease. 
+                    </Typography>
+                  </Box>
+                </Box>
             </Grid>
           </Grid>
       </Box>
 
-      <Box sx={{my: 6, textAlign: 'center'}}>
+
+
+      {/* Pricing */}
+
+
+      <Box sx={{my: 6, pt: 8}}>
+        <Typography variant="h5" component="h2" gutterBottom fontWeight={'bold'} sx = {{p: 2, paddingLeft: 4}}>Pricing</Typography>
+          <Grid container alignItems="center" justifyContent="center" rows={{ md: 3}} sx = {{p: 2, textAlign: 'left'}} gap='2' spacing={{ xs: 1, md: 3 }}>
+            <Grid item xs={12} md={4} sx={{ display: 'flex'}}>
+                <Paper elevation={3} sx = {{ display: 'flex', flexDirection: {sm: 'row'}, width: 350, height: 225, p: 2}}>
+                  <Box sx = {{flex: 0.05, pt: 0.6, paddingRight: 3 }}>
+                  <InfoOutlinedIcon> </InfoOutlinedIcon>
+                  </Box>
+                  <Box>
+                  <Typography variant="h6" fontWeight={'bold'}>Free</Typography>
+                    <Typography>
+                      {' '}
+                      Start your free trial for 3 days. Experience powerful learning in just a few clicks. No commitment needed!
+                    </Typography>
+                    <Button variant = "contained" color="primary" sx = {{mt: 2, borderRadius: 25}} onClick={handleDashboard}>
+                      Get Started
+                    </Button>
+                  </Box>
+                </Paper>
+            </Grid>
+
+            <Grid item xs={12} md={4} sx={{ display: 'flex'}}>
+                <Paper elevation={3} sx = {{ display: 'flex', flexDirection: {sm: 'row'}, width: 350, height: 225, p: 2}}>
+                  <Box sx = {{flex: 0.05, pt: 0.6, paddingRight: 3 }}>
+                  <InfoOutlinedIcon> </InfoOutlinedIcon>
+                  </Box>
+                  <Box>
+                  <Typography variant="h6" fontWeight={'bold'}>Basic</Typography>
+                  <Typography variant="h6" fontWeight={'semibold'}>$5 / month</Typography>
+                    <Typography>
+                      {' '}
+                      Access to basic flashcard features and limited storage.
+                    </Typography>
+                    <Button variant = "contained" color="primary" sx = {{mt: 2, borderRadius: 25}} onClick={handleDashboard}>
+                      Get Started
+                    </Button>
+                  </Box>
+                </Paper>
+            </Grid>
+
+            <Grid item xs={12} md={4} sx={{ display: 'flex'}}>
+                <Paper elevation={3} sx = {{ display: 'flex', flexDirection: {sm: 'row'}, width: 350, height: 225, p:2}}>
+                  <Box sx = {{flex: 0.05, pt: 0.6, paddingRight: 3 }}>
+                  <InfoOutlinedIcon> </InfoOutlinedIcon>
+                  </Box>
+                  <Box>
+                  <Typography variant="h6" fontWeight={'bold'}>Pro</Typography>
+                  <Typography variant="h6" fontWeight={'semibold'}>$10 / month</Typography>
+                    <Typography>
+                      {' '}
+                      Unlimited flashcards and storage, with priority support. 
+                    </Typography>
+                    <Button variant = "contained" color="primary" sx = {{mt: 2, borderRadius: 25}}>
+                      Coming Soon
+                    </Button>
+                  </Box>
+                </Paper>
+            </Grid>
+          </Grid>
+      </Box>
+
+
+
+
+      {/* <Box sx={{my: 6, textAlign: 'center'}}>
         <Typography variant="h4" component="h2" gutterBottom>Pricing</Typography>
         <Grid container spacing={4} justifyContent="center">
             <Grid item xs={12} md={4}>
@@ -179,7 +288,7 @@ export default function Home() {
               </Box>
             </Grid>
         </Grid>
-      </Box>
+      </Box> */}
     </Container>
     
 
