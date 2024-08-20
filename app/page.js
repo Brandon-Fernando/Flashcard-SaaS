@@ -80,7 +80,7 @@ export default function Home() {
   }
 
   return (
-    <Container maxWidth={false} disableGutters sx={{ minWidth: '100vw', overflowX: 'hidden' }}>
+    <Container maxWidth={false} disableGutters sx={{ width: '100vw', overflowX: 'hidden' }}>
       {/* <Head>
         <title>Flashcard SaaS</title>
         <meta name="description" content="Create flashcard from your text"/>
@@ -88,7 +88,7 @@ export default function Home() {
 
 
       {/* Navbar */}
-      <AppBar position="static" color ='default' minWidth = '100vw' sx= {{ width: '100vw', height: 80, paddingTop: 1, paddingBottom: 1, borderRadius: 3, marginBottom: 1, marginTop: 1, boxShadow: 5}}>
+      <AppBar position="static" color ='default' sx= {{ width: '100vw', height: 80, paddingTop: 1, paddingBottom: 1, borderRadius: 3, marginBottom: 1, marginTop: 1, boxShadow: 5}}>
         <Toolbar>
           <Typography variant = 'h5' sx = {{ flexGrow: 1 }}>
             <Image src = '/assets/cardlet-logo.png' alt = 'Cardlet' width='120' height = '50'/>

@@ -6,12 +6,6 @@ import { getFirestore } from 'firebase/firestore';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  // apiKey: "AIzaSyBC6etZ4KAnGZmmsVeTOVCtb61-ykCPOWM",
-  // authDomain: "flashcard-saas-f1b28.firebaseapp.com",
-  // projectId: "flashcard-saas-f1b28",
-  // storageBucket: "flashcard-saas-f1b28.appspot.com",
-  // messagingSenderId: "341888977680",
-  // appId: "1:341888977680:web:fefed30d84255c5b793395"
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
