@@ -72,11 +72,11 @@ export default function Test() {
               justifyContent: 'center',
             }}>
             
-            <Typography variant="h5" gutterBottom sx={{ ml: '-70px', mt:'40px' }}>
+            <Typography variant="h5" gutterBottom sx={{ mt:'40px' }}>
               Select a Flashcard Set to Start the Test Game
             </Typography>
 
-            <Grid container spacing={2} justifyContent="center" sx={{ mt: 4 }}> {/* Add margin-top to the Grid */}
+            <Grid container spacing={2} display="flex" alignItems="center" justifyContent="center" sx={{ mt: 4 }}> {/* Add margin-top to the Grid */}
               {flashcardSets.length === 0 ? (
                 <Typography variant="h6">No flashcard sets found. Please create some first.</Typography>
               ) : (
