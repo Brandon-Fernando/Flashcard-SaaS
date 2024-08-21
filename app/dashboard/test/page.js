@@ -30,8 +30,7 @@ export default function Test() {
   }, [user, isLoaded]);
 
   const handleSelectSet = (setName) => {
-    // Navigate to the test game with the selected flashcard set
-    router.push(`/dashboard/test/${setName}`);
+    router.push(`/dashboard/match/${setName}`);
   };
 
   if (loading) {
@@ -87,7 +86,7 @@ export default function Test() {
                       <CardActionArea onClick={() => handleSelectSet(set.name)}>
                         <CardContent>
                           <Typography variant="h6" component="div">
-                            {set.name}
+                            {set.name.trim().replace(/-/g, ' ')}
                           </Typography>
                         </CardContent>
                       </CardActionArea>

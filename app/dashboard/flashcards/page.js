@@ -115,7 +115,7 @@ export default function Flashcards() {
                         onClick={() => handleCardClick(flashcard.name)}
                     >
                         <Typography variant="h6" component="div" textAlign="center" fontWeight="bold">
-                            {flashcard.name}
+                            {flashcard.name.trim().replace(/-/g, ' ')}
                         </Typography>
                         <Stack direction="row" spacing={2} display="flex" alignItems="center">
                             <IconButton

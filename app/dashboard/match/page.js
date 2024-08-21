@@ -88,7 +88,7 @@ export default function Match() {
                       <CardActionArea onClick={() => handleSelectSet(set.name)}>
                         <CardContent>
                           <Typography variant="h6" component="div">
-                            {set.name}
+                            {set.name.trim().replace(/-/g, ' ')}
                           </Typography>
                         </CardContent>
                       </CardActionArea>

@@ -68,34 +68,36 @@ export default function Generate() {
             alert('Please enter a name for your flashcard set.')
             return 
         }
-
-        const batch = writeBatch(db)
-        const userDocRef = doc(collection(db, 'users'), user.id)
-        const docSnap = await getDoc(userDocRef)
-
-        if(docSnap.exists()){
-            const collections = docSnap.data().flashcards || []
-            if (collections.find((f) => f.name === name)) {
-                alert('Flashcard collection with the same name already exists.')
-                return 
+    
+        // Replace spaces with dashes in the name
+        const formattedName = name.trim().replace(/\s+/g, '-');
+    
+        const batch = writeBatch(db);
+        const userDocRef = doc(collection(db, 'users'), user.id);
+        const docSnap = await getDoc(userDocRef);
+    
+        if (docSnap.exists()) {
+            const collections = docSnap.data().flashcards || [];
+            if (collections.find((f) => f.name === formattedName)) {
+                alert('Flashcard collection with the same name already exists.');
+                return;
             } else {
-                collections.push({name})
-                batch.set(userDocRef, {flashcards: collections}, {merge: true})
+                collections.push({ name: formattedName });
+                batch.set(userDocRef, { flashcards: collections }, { merge: true });
             }
-        }else{
-            batch.set(userDocRef, {flashcards: [{name}]})
+        } else {
+            batch.set(userDocRef, { flashcards: [{ name: formattedName }] });
         }
-
-        const colRef = collection(userDocRef, name)
+    
+        const colRef = collection(userDocRef, formattedName);
         flashcards.forEach((flashcard) => {
-            const cardDocRef = doc(colRef)
-            batch.set(cardDocRef, flashcard)
-        })
-
-        await batch.commit()
-        handleClose()
-        router.push('/dashboard/flashcards')
-
+            const cardDocRef = doc(colRef);
+            batch.set(cardDocRef, flashcard);
+        });
+    
+        await batch.commit();
+        handleClose();
+        router.push('/dashboard/flashcards');
     }
 
     const scrollPrev = useCallback(() => {
