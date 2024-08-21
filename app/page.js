@@ -22,14 +22,6 @@ export default function Home() {
     }
   }
 
-  const handleFileUpload = async () => {
-    if (isSignedIn) {
-      router.push('/file-upload')
-    } else {
-      router.push('/sign-in')
-    }
-  }
-
   const handleSubmit = async () => {
     if (!isSignedIn) {
       router.push('/sign-in')
@@ -38,6 +30,7 @@ export default function Home() {
     const checkoutSession = await fetch('/api/checkout_session', {
       method: 'POST',
       headers: { origin: 'http://localhost:3000' }, // TODO: Change when deployed to vercel
+      body: JSON.stringify({planType: 'paid'}),
     })
     const checkoutSessionJson = await checkoutSession.json()
   
@@ -59,7 +52,7 @@ export default function Home() {
   const handleFreeTrialSubmit = async () => {
     const checkoutSession = await fetch('/api/checkout_session', {
       method: 'POST', 
-      headers: {origin: 'http://localhost:3000'},
+      headers: {origin: 'https://cardlet-phi.vercel.app'},
       body: JSON.stringify({planType: 'free-trial'}),
     })
     const checkoutSessionJson = await checkoutSession.json()
@@ -234,7 +227,7 @@ export default function Home() {
                       {' '}
                       Full access to all features, including unlimited flashcards, AI-powered study sessions, and more!
                     </Typography>
-                    <Button variant = "contained" color="primary" sx = {{mt: 2, borderRadius: 25}} onClick={handleDashboard}>
+                    <Button variant = "contained" color="primary" sx = {{mt: 2, borderRadius: 25}} onClick={handleSubmit}>
                       Get Started
                     </Button>
                   </Box>

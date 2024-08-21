@@ -1,11 +1,10 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
 const formatAmountForStripe = (amount) => {
     return Math.round(amount * 100)
 }
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
 export async function GET(req) {
     const searchParams = req.nextUrl.searchParams
@@ -27,7 +26,13 @@ export async function GET(req) {
 
 export async function POST(req) {
     try{
-        const {planType} = await req.json()
+        const planType = await req.json()
+
+        if(planType === 'free-trial'){
+            params.subscription_data = {
+                trial_period_days: 30,
+            }
+        }
         
         const params = {
             mode: 'subscription',
@@ -37,9 +42,9 @@ export async function POST(req) {
                     price_data: {
                         currency: 'usd',
                         product_data: {
-                            name: 'Pro subscription', 
+                            name: 'Membership', 
                         }, 
-                        unit_amount: formatAmountForStripe(10),
+                        unit_amount: formatAmountForStripe(5),
                         recurring: {
                             interval: 'month', 
                             interval_count: 1, 
@@ -48,19 +53,11 @@ export async function POST(req) {
                     quantity: 1,
                 },
             ],
-            success_url: `${req.headers.get(
-                'Referer',
-            )}result?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${req.headers.get(
-                'Referer',
-            )}result?session_id={CHECKOUT_SESSION_ID}`,
+            success_url: `${req.headers.get('origin')}/result?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${req.headers.get('origin')}/result?session_id={CHECKOUT_SESSION_ID}`,
         }
 
-        if(planType === 'free-trial'){
-            params.subscription_data = {
-                trial_period_days: 7,
-            }
-        }
+        
 
         const checkoutSession = await stripe.checkout.sessions.create(params)
 
