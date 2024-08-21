@@ -203,7 +203,7 @@ export default function Home() {
                   </Box>
                   <Box>
                   <Typography variant="h6" fontWeight={'bold'}>Free</Typography>
-                  <Typography variant="h6" fontWeight={'semibold'}>30 Day Trial</Typography>
+                  <Typography variant="h6" fontWeight={'semibold'}>Try it Now!</Typography> {/* change when free trial is working */}
                     <Typography>
                       {' '}
                       Experience powerful learning with just a few click. Enjoy all the features with zero commitment!
