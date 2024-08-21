@@ -4,6 +4,7 @@ import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/nextjs";
 import { AppBar, Box, Button, Container, Grid, Toolbar, Typography, Paper } from "@mui/material";
 import Image from "next/image";
 import getStripe from "@/utils/get-stripe";
+import Head from 'next/head'
 import { useRouter } from 'next/navigation';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import styles from './page.module.css'
