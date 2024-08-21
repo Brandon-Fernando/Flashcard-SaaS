@@ -2,12 +2,11 @@
 
 import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/nextjs";
 import { AppBar, Box, Button, Container, Grid, Toolbar, Typography, Paper } from "@mui/material";
-import Head from "next/head";
 import Image from "next/image";
 import getStripe from "@/utils/get-stripe";
 import { useRouter } from 'next/navigation';
-import background from '/public/assets/background.png';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import styles from './page.module.css'
 
 
 export default function Home() {
@@ -80,7 +79,7 @@ export default function Home() {
   }
 
   return (
-    <Container maxWidth={false} disableGutters sx={{ width: '100vw', overflowX: 'hidden' }}>
+    <Container className={styles.container} disableGutters sx={{ minWidth: '100%', minHeight: '100vh' }}>
       <Head>
                 <script
                 async
@@ -96,9 +95,9 @@ export default function Home() {
                     `,
                     }}
                 />
-            </Head>
+        </Head>
       {/* Navbar */}
-      <AppBar position="static" color ='default' sx= {{ width: '100vw', height: 80, paddingTop: 1, paddingBottom: 1, borderRadius: 3, marginBottom: 1, marginTop: 1, boxShadow: 5}}>
+      <AppBar className={styles.appBar} position="absolute" color ='default'>
 
         <Toolbar>
           <Typography variant = 'h5' sx = {{ flexGrow: 1 }}>
@@ -126,10 +125,8 @@ export default function Home() {
           color: 'black',
           textAlign: 'center',
           alignContent: 'center',
-          py: 8,
-          paddingBottom: 12,
-          width: '100vw',
-          height: '75vh'
+          width: '100%',
+          height: '100vh'
         }}
       >
         <Image fill src = '/assets/background.png' alt ='Background' style = {{objectFit: 'cover'}}/>
@@ -146,19 +143,19 @@ export default function Home() {
 
       {/* Features */}
 
-      <Box sx={{my: 6}}>
-        <Typography variant="h5" component="h2" gutterBottom fontWeight={'bold'} sx = {{p: 2, paddingLeft: 4}}>Features</Typography>
-          <Grid container rows={{ md: 3}} sx = {{p: 2, textAlign: 'left', alignContent: 'center'}} spacing={{ xs: 2, md: 3 }}>
+      <Box sx={{my: 6, mt: 12, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start', width: '80%'}}>
+        <Typography variant="h5" component="h2" gutterBottom fontWeight={'bold'} sx = {{pt: 2 }}>Features</Typography>
+          <Grid container rows={{ md: 3}} sx = {{p: 2, display: 'flex', flexDirection: {xs: 'column', sm: 'row'}, justifyContent: 'center', alignItems: 'center'}} spacing={{ xs: 2, md: 3 }}>
             <Grid item xs={12} md={4}>
-                <Box sx = {{ display: 'flex', flexDirection: {sm: 'row'}, width: 325}}>
+                <Box sx = {{ display: 'flex', flexDirection: {sm: 'row'}}}>
                   <Box sx = {{flex: 0.05, pt: 0.6, paddingRight: 3 }}>
-                  <InfoOutlinedIcon> </InfoOutlinedIcon>
+                    <InfoOutlinedIcon> </InfoOutlinedIcon>
                   </Box>
                   <Box>
                   <Typography variant="h6" fontWeight={'bold'}>Easy Text Input</Typography>
                     <Typography>
                       {' '}
-                      Simply input your text and let our software do the rest. Creating 
+                      Simply input your notes and let our software do the rest. Creating 
                       flashcards has never been easier. 
                     </Typography>
                   </Box>
@@ -166,15 +163,15 @@ export default function Home() {
             </Grid>
 
             <Grid item xs={12} md={4}>
-                <Box sx = {{ display: 'flex', flexDirection: {sm: 'row'}, width: 325}}>
+                <Box sx = {{ display: 'flex', flexDirection: {sm: 'row'}}}>
                   <Box sx = {{flex: 0.05, pt: 0.6, paddingRight: 3 }}>
                   <InfoOutlinedIcon> </InfoOutlinedIcon>
                   </Box>
                   <Box>
-                  <Typography variant="h6" fontWeight={'bold'}>Smart Flashcards</Typography>
+                  <Typography variant="h6" fontWeight={'bold'}>File Upload</Typography>
                     <Typography>
                       {' '}
-                      Our AI intelligently breaks down your text into concise flashcards, 
+                      Our AI intelligently breaks down your PDFs into concise flashcards, 
                       perfect for studying.
                     </Typography>
                   </Box>
@@ -182,17 +179,15 @@ export default function Home() {
             </Grid>
 
             <Grid item xs={12} md={4}>
-                <Box sx = {{ display: 'flex', flexDirection: {sm: 'row'}, width: 325}}>
+                <Box sx = {{ display: 'flex', flexDirection: {sm: 'row'}}}>
                   <Box sx = {{flex: 0.05, pt: 0.6, paddingRight: 3 }}>
                   <InfoOutlinedIcon> </InfoOutlinedIcon>
                   </Box>
                   <Box>
-                  <Typography variant="h6" fontWeight={'bold'}>Anywhere, Anytime</Typography>
+                  <Typography variant="h6" fontWeight={'bold'}>Games</Typography>
                     <Typography>
                       {' '}
-                      Access your flashcards from any device, at anytime. Study on the 
-                      go with ease. 
-                    </Typography>
+                      Make studying more fun and effective with matching games and practice tests that help reinforce your knowledge.                    </Typography>
                   </Box>
                 </Box>
             </Grid>
@@ -204,19 +199,20 @@ export default function Home() {
       {/* Pricing */}
 
 
-      <Box sx={{my: 6, pt: 8}}>
-        <Typography variant="h5" component="h2" gutterBottom fontWeight={'bold'} sx = {{p: 2, paddingLeft: 4}}>Pricing</Typography>
-          <Grid container alignItems="center" justifyContent="center" rows={{ md: 3}} sx = {{p: 2, textAlign: 'left'}} gap='2' spacing={{ xs: 1, md: 3 }}>
-            <Grid item xs={12} md={4} sx={{ display: 'flex'}}>
-                <Paper elevation={3} sx = {{ display: 'flex', flexDirection: {sm: 'row'}, width: 350, height: 225, p: 2}}>
+      <Box sx={{my: 14, mt: 6, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start', width: '80%'}}>
+        <Typography variant="h5" component="h2" gutterBottom fontWeight={'bold'} sx = {{pt: 2}}>Pricing</Typography>
+          <Grid container sx = {{p: 2, display: 'flex', flexDirection: {xs: 'row', sm: 'row'}, justifyContent: 'center', alignItems: 'center'}} spacing={{ xs: 6, md: 4 }}>
+            <Grid item xs={12} md={6} sx={{ display: 'flex'}}>
+                <Paper elevation={3} sx = {{ display: 'flex', flexDirection: {sm: 'row'}, justifyContent: 'space-between', height: {sm: 200, md: 240, lg: 200}, p: 2}}>
                   <Box sx = {{flex: 0.05, pt: 0.6, paddingRight: 3 }}>
                   <InfoOutlinedIcon> </InfoOutlinedIcon>
                   </Box>
                   <Box>
                   <Typography variant="h6" fontWeight={'bold'}>Free</Typography>
+                  <Typography variant="h6" fontWeight={'semibold'}>30 Day Trial</Typography>
                     <Typography>
                       {' '}
-                      Start your free trial for 3 days. Experience powerful learning in just a few clicks. No commitment needed!
+                      Experience powerful learning with just a few click. Enjoy all the features with zero commitment!
                     </Typography>
                     <Button variant = "contained" color="primary" sx = {{mt: 2, borderRadius: 25}} onClick={handleDashboard}>
                       Get Started
@@ -225,17 +221,17 @@ export default function Home() {
                 </Paper>
             </Grid>
 
-            <Grid item xs={12} md={4} sx={{ display: 'flex'}}>
-                <Paper elevation={3} sx = {{ display: 'flex', flexDirection: {sm: 'row'}, width: 350, height: 225, p: 2}}>
+            <Grid item xs={12} md={6} sx={{ display: 'flex'}}>
+                <Paper elevation={3} sx = {{ display: 'flex', flexDirection: {sm: 'row'}, height: {sm: 200, md: 240, lg: 200}, p: 2}}>
                   <Box sx = {{flex: 0.05, pt: 0.6, paddingRight: 3 }}>
                   <InfoOutlinedIcon> </InfoOutlinedIcon>
                   </Box>
                   <Box>
-                  <Typography variant="h6" fontWeight={'bold'}>Basic</Typography>
+                  <Typography variant="h6" fontWeight={'bold'}>Membership</Typography>
                   <Typography variant="h6" fontWeight={'semibold'}>$5 / month</Typography>
                     <Typography>
                       {' '}
-                      Access to basic flashcard features and limited storage.
+                      Full access to all features, including unlimited flashcards, AI-powered study sessions, and more!
                     </Typography>
                     <Button variant = "contained" color="primary" sx = {{mt: 2, borderRadius: 25}} onClick={handleDashboard}>
                       Get Started
@@ -244,62 +240,8 @@ export default function Home() {
                 </Paper>
             </Grid>
 
-            <Grid item xs={12} md={4} sx={{ display: 'flex'}}>
-                <Paper elevation={3} sx = {{ display: 'flex', flexDirection: {sm: 'row'}, width: 350, height: 225, p:2}}>
-                  <Box sx = {{flex: 0.05, pt: 0.6, paddingRight: 3 }}>
-                  <InfoOutlinedIcon> </InfoOutlinedIcon>
-                  </Box>
-                  <Box>
-                  <Typography variant="h6" fontWeight={'bold'}>Pro</Typography>
-                  <Typography variant="h6" fontWeight={'semibold'}>$10 / month</Typography>
-                    <Typography>
-                      {' '}
-                      Unlimited flashcards and storage, with priority support. 
-                    </Typography>
-                    <Button variant = "contained" color="primary" sx = {{mt: 2, borderRadius: 25}}>
-                      Coming Soon
-                    </Button>
-                  </Box>
-                </Paper>
-            </Grid>
           </Grid>
       </Box>
-
-
-
-
-      {/* <Box sx={{my: 6, textAlign: 'center'}}>
-        <Typography variant="h4" component="h2" gutterBottom>Pricing</Typography>
-        <Grid container spacing={4} justifyContent="center">
-            <Grid item xs={12} md={4}>
-              <Box sx={{p: 3, border: '1px solid', borderColor: 'grey.300', borderRadius: 2}}>
-              <Typography variant="h5" gutterBottom>Free Trial</Typography>
-              <Typography variant="h6">First Week Free, Then $10/month</Typography>
-              <Typography>
-                {' '}
-                Access to basic flashcard features and limited storage.
-              </Typography>
-              <Button variant = "contained" color="primary" onClick={handleFreeTrialSubmit}>
-                Start Free Trial
-              </Button>
-              </Box>
-            </Grid>
-
-            <Grid item xs={12} md={4}>
-              <Box sx={{p: 3, border: '1px solid', borderColor: 'grey.300', borderRadius: 2}}>
-              <Typography variant="h5" gutterBottom>Pro</Typography>
-              <Typography variant="h6">$10 / month</Typography>
-              <Typography>
-                {' '}
-                Unlimited flashcards and storage, with priority support.
-              </Typography>
-              <Button variant = "contained" color="primary" onClick={handleSubmit}>
-                Choose Pro
-              </Button>
-              </Box>
-            </Grid>
-        </Grid>
-      </Box> */}
     </Container>
   )
 }
