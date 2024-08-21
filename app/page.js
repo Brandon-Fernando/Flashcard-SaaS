@@ -29,7 +29,7 @@ export default function Home() {
     }
     const checkoutSession = await fetch('/api/checkout_session', {
       method: 'POST',
-      headers: { origin: 'http://localhost:3000' }, // TODO: Change when deployed to vercel
+      headers: { origin: 'https://cardlet-phi.vercel.app' }, // TODO: Change when deployed to vercel
       body: JSON.stringify({planType: 'paid'}),
     })
     const checkoutSessionJson = await checkoutSession.json()
