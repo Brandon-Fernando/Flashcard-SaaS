@@ -5,7 +5,6 @@ import { AppBar, Box, Button, Container, Grid, Toolbar, Typography, Paper } from
 import Head from "next/head";
 import Image from "next/image";
 import getStripe from "@/utils/get-stripe";
-import Head from 'next/head'
 import { useRouter } from 'next/navigation';
 import background from '/public/assets/background.png';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
