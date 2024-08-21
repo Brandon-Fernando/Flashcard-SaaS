@@ -1,8 +1,10 @@
 .container {
+  height: 90vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  padding-bottom: 2.5rem;
 }
 
 .container::before {
@@ -15,10 +17,6 @@
   background: url('/assets/background.png') no-repeat left center;
   background-size: cover;
   opacity: 0.6; /* Adjust opacity for transparency */
+  border-radius: 10px; /* Match the container's border radius */
   z-index: -1;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
 }
