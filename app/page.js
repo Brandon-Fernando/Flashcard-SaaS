@@ -80,7 +80,7 @@ export default function Home() {
   }
 
   return (
-    <Container className={styles.container} disableGutters sx={{ minWidth: '100%', minHeight: '100vh' }}>
+    <Container className={styles.container} disableGutters sx={{ minWidth: '100%', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
       <Head>
                 <script
                 async

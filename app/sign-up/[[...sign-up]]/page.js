@@ -8,7 +8,7 @@ import styles from './page.module.css'
 
 export default function SignUpPage() {
     return(
-    <Container disableGutters className={styles.container} sx={{minWidth: '100vw', minHeight: '100vh'}}>
+    <Container disableGutters className={styles.container} sx={{minWidth: '100vw', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
         <AppBar position="absolute" sx={{backgroundColor: '#3f51b5'}}>
             <Toolbar sx={{bgcolor: 'white', padding:"8px"}}>
                 <Image src="/assets/cardlet-logo.png" alt="Logo" width={125} height={50} />
