@@ -30,7 +30,7 @@ export default function Test() {
   }, [user, isLoaded]);
 
   const handleSelectSet = (setName) => {
-    router.push(`/dashboard/match/${setName}`);
+    router.push(`/dashboard/test/${setName}`);
   };
 
   if (loading) {

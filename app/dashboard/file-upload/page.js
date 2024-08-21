@@ -390,6 +390,7 @@ export default function FileUpload() {
                         fullWidth value={name} 
                         onChange={(e) => setName(e.target.value)} 
                         variant="outlined"
+                        inputProps={{ maxLength: 30 }}
                         sx={{
                             '& .MuiOutlinedInput-root': {
                                 "& fieldset": {
@@ -405,6 +406,9 @@ export default function FileUpload() {
                                 },
                             }
                         }}/>
+                        <Typography variant="body2" sx={{ mt: 1, display: 'flex', justifyContent: 'flex-end', color: '#595959'}}>
+                            {name.length} / 30 characters
+                        </Typography>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>
